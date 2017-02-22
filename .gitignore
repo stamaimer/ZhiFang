@@ -25,5 +25,6 @@ instance/config.py
 
 # log
 
+!log
 log/error_log
 log/access_log

@@ -20,7 +20,7 @@ class Config(object):
 
     WTF_CSRF_ENABLED = 0
 
-    # SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
+    SECURITY_PASSWORD_HASH = "bcrypt"
 
     SECURITY_USER_IDENTITY_ATTRIBUTES = ("phone")
 
