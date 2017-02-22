@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# start.sh
+
+source venv/bin/activate
+
+gunicorn -w 3 -k gevent run:app -p app.pid -b 127.0.0.1:2828 --log-level=DEBUG --access-logfile log/access_log --error-logfile log/error_log --preload

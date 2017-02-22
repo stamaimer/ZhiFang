@@ -1,0 +1,29 @@
+# macos
+
+.DS_Store
+
+# pycharm
+
+.idea
+
+# python
+
+*.pyc
+
+# virtual environment
+
+venv
+
+# database file
+
+migrations
+
+# flask
+
+app.pid
+instance/config.py
+
+# log
+
+log/error_log
+log/access_log
