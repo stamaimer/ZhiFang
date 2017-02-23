@@ -12,7 +12,7 @@
 
 from sqlalchemy.exc import IntegrityError
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, current_app, jsonify, request
 
 from flask_security import auth_token_required
 
@@ -50,6 +50,20 @@ def init_db():
     except IntegrityError:
 
         db.session.rollback()
+
+
+@api.before_app_request
+def before_app_request():
+
+    current_app.logger.debug("request path: " + request.url)
+
+    current_app.logger.debug("request head: " + request.headers.__str__())
+
+    current_app.logger.debug("request args: " + request.args.__str__())
+
+    current_app.logger.debug("request form: " + request.form.__str__())
+
+    current_app.logger.debug("request data: " + request.data.__str__())
 
 
 @api.route("/test")

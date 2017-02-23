@@ -12,6 +12,8 @@
 
 from flask import Flask
 
+from flask_cors import CORS
+
 
 def create_app(config_name):
 
@@ -33,6 +35,8 @@ def create_app(config_name):
     app.config.from_object(config_name)
 
     app.config.from_pyfile("config.py")
+
+    CORS(app)
 
     from models import db
 
