@@ -38,6 +38,10 @@ def create_app(config_name):
 
     CORS(app)
 
+    from utilities import babel
+
+    babel.init_app(app)
+
     from models import db
 
     db.init_app(app)

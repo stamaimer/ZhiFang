@@ -12,12 +12,10 @@
 
 from flask_security import RoleMixin
 
-from . import db
+from . import db, AppModel
 
 
-class Role(db.Model, RoleMixin):
-
-    id = db.Column(db.Integer(), primary_key=True)
+class Role(AppModel, RoleMixin):
 
     name = db.Column(db.String(128), unique=True)
 

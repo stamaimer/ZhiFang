@@ -11,37 +11,51 @@
 
 
 from flask_security import UserMixin
-from . import db, roles_users
+
+from . import db, roles_users, specialties_users, AppModel
 
 
-class User(db.Model, UserMixin):
+class User(AppModel, UserMixin):
 
-    id = db.Column(db.Integer(), primary_key=True)
+    employee_no = db.Column(db.Integer(), unique=True)  # 工号
 
-    email = db.Column(db.String(128), unique=True)
+    id_no = db.Column(db.String(128), unique=True)  # 身份证号
 
-    phone = db.Column(db.String(128), unique=True)
+    email = db.Column(db.String(128), unique=True)  # 邮箱 不填
 
-    active = db.Column(db.Boolean(), default=True)
+    phone = db.Column(db.String(128), unique=True)  # 手机
 
-    username = db.Column(db.String(128))
+    active = db.Column(db.Boolean(), default=True)  # 状态 默认有效
 
-    password = db.Column(db.String(128))
+    gender = db.Column(db.Enum(u"男", u"女"))  # 性别
+
+    username = db.Column(db.String(128))  # 姓名
+
+    password = db.Column(db.String(128))  # 密码
+
+    notation = db.Column(db.Text())  # 备注
+
+    registration_id = db.Column(db.String(64))
+
+    region_id = db.Column(db.Integer(), db.ForeignKey("region.id"))
+
+    region = db.relationship("Region", foreign_keys=region_id)
 
     roles = db.relationship("Role", secondary=roles_users,
                             backref=db.backref("users", lazy="dynamic"))
 
-    def __init__(self, email="", phone="", active="", username="", password="", roles=None):
+    specialties = db.relationship("Specialty", secondary=specialties_users,
+                                  backref=db.backref("users", lazy="dynamic"))
 
-        self.email = email
+    def __init__(self, phone="", username="", password="", region=None, roles=None):
 
         self.phone = phone
-
-        self.active = active
 
         self.username = username
 
         self.password = password
+
+        self.region = region
 
         self.roles = roles
 
