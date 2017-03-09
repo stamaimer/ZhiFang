@@ -61,7 +61,9 @@ class RoleModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime"]
 
-    labels = dict(name=u"权限", description=u"描述")
+    form_excluded_columns = ["create_datetime", "update_datetime"]
+
+    labels = dict(name=u"权限", description=u"描述", users=u"用户")
 
     column_labels = labels
 
@@ -70,13 +72,17 @@ class UserModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime", "email", "password", "registration_id"]
 
-    labels = dict(region=u"地域", employee_no=u"工号", id_no=u"身份证号", phone=u"手机", active=u"状态", gender=u"性别",
-                  username=u"姓名")
+    form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id", "clocks"]
+
+    labels = dict(region=u"地域", roles=u"权限", specialties=u"专业", employee_no=u"工号", id_no=u"身份证号", phone=u"手机", active=u"状态", gender=u"性别",
+                  username=u"姓名", password=u"密码", notation=u"备注")
 
     column_labels = labels
 
 
 class LoanModelView(AppModelView):
+
+    can_create = False
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -87,6 +93,8 @@ class LoanModelView(AppModelView):
 
 
 class WorkModelView(AppModelView):
+
+    can_create = False
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -99,6 +107,8 @@ class WorkModelView(AppModelView):
 
 class AuditModelView(AppModelView):
 
+    can_create = False
+
     column_exclude_list = ["update_datetime"]
 
     labels = dict(current=u"待审", create_user=u"创建人", create_datetime=u"创建时间", status=u"状态", type=u"类型")
@@ -108,7 +118,11 @@ class AuditModelView(AppModelView):
 
 class ClockModelView(AppModelView):
 
+    can_create = False
+
     column_exclude_list = ["create_datetime", "update_datetime"]
+
+    form_excluded_columns = ["create_datetime", "update_datetime"]
 
     labels = dict(project=u"所属项目", user=u"打卡人", notation=u"备注", position=u"打卡位置", datetime=u"打卡时间")
 
@@ -116,6 +130,8 @@ class ClockModelView(AppModelView):
 
 
 class LeaveModelView(AppModelView):
+
+    can_create = False
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -129,6 +145,8 @@ class RegionModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime"]
 
+    form_excluded_columns = ["create_datetime", "update_datetime", "projects"]
+
     labels = dict(charge_user=u"负责人", text=u"地域")
 
     column_labels = labels
@@ -137,6 +155,8 @@ class RegionModelView(AppModelView):
 class ProjectModelView(AppModelView):
 
     column_exclude_list = ["update_datetime"]
+
+    form_excluded_columns = ["update_datetime"]
 
     labels = dict(region=u"所属地域", charge_user=u"负责人", current_stage=u"当前节点", create_datetime=u"创建时间",
                   no=u"项目编号", name=u"项目名称")
@@ -148,6 +168,8 @@ class BulletinModelView(AppModelView):
 
     column_exclude_list = ["update_datetime"]
 
+    form_excluded_columns = ["update_datetime"]
+
     labels = dict(create_datetime=u"创建时间", title=u"标题", content=u"内容")
 
     column_labels = labels
@@ -156,6 +178,8 @@ class BulletinModelView(AppModelView):
 class WorkTypeModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime"]
+
+    form_excluded_columns = ["create_datetime", "update_datetime"]
 
     labels = dict(text=u"工作类型")
 
@@ -166,12 +190,16 @@ class SpecialtyModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime"]
 
+    form_excluded_columns = ["create_datetime", "update_datetime", "users"]
+
     labels = dict(text=u"专业类型")
 
     column_labels = labels
 
 
 class AuditItemModelView(AppModelView):
+
+    can_create = False
 
     column_exclude_list = ["update_datetime"]
 
@@ -182,6 +210,8 @@ class AuditItemModelView(AppModelView):
 
 
 class AuditViewModelView(AppModelView):
+
+    can_create = False
 
     column_exclude_list = ["_next_", "update_datetime"]
 
@@ -195,6 +225,8 @@ class LeaveTypeModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime"]
 
+    form_excluded_columns = ["create_datetime", "update_datetime"]
+
     labels = dict(text=u"请假类型")
 
     column_labels = labels
@@ -204,12 +236,16 @@ class ProjectStageModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime"]
 
+    form_excluded_columns = ["create_datetime", "update_datetime"]
+
     labels = dict(text=u"项目节点")
 
     column_labels = labels
 
 
 class ReimbursementModelView(AppModelView):
+
+    can_create = False
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -222,6 +258,8 @@ class ReimbursementModelView(AppModelView):
 class ReimbursementTypeModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime"]
+
+    form_excluded_columns = ["create_datetime", "update_datetime"]
 
     labels = dict(text=u"报销类型")
 

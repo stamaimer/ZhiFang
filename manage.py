@@ -49,7 +49,7 @@ def rebuild_db():
 
     cursor = connection.cursor()
 
-    cursor.execute("drop database %s" % current_app.config["DB_NAME"])
+    cursor.execute("drop database if exists %s" % current_app.config["DB_NAME"])
 
     cursor.execute(
         "create database if not exists %s character set utf8 collate utf8_general_ci" % current_app.config["DB_NAME"])
