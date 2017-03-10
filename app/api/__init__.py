@@ -197,7 +197,7 @@ def coor2addr():
 
     if address:
 
-        return address
+        return jsonify(dict(address=address))
 
     else:
 
