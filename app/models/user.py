@@ -25,6 +25,8 @@ class User(AppModel, UserMixin):
 
     phone = db.Column(db.String(128), unique=True)  # 手机
 
+    image = db.Column(db.String(128))  # 签名
+
     active = db.Column(db.Boolean(), default=True)  # 状态 默认有效
 
     gender = db.Column(db.Enum(u"男", u"女"))  # 性别

@@ -27,9 +27,16 @@ def select_audit():
 
     try:
 
-        type = request.args.get("type", '%')
+        type = request.args.getlist("type")
 
-        audits = Audit.query.filter(Audit.create_user == current_user, Audit.type.like(type)).all()
+        if type:
+
+            audits = Audit.query.filter(Audit.create_user == current_user,
+                                        Audit.type.op("regexp")('|'.join(type))).all()
+
+        else:
+
+            audits = Audit.query.filter(Audit.create_user == current_user).all()
 
         data_dict = dict()
 

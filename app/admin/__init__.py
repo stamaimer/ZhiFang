@@ -10,11 +10,13 @@
 """
 
 
+from jinja2 import Markup
+
 from flask import redirect, request, url_for
 
 from flask_security import current_user
 
-from flask_admin import Admin
+from flask_admin import Admin, form
 from flask_admin.contrib.sqla import ModelView
 
 from app.models import db
@@ -70,12 +72,34 @@ class RoleModelView(AppModelView):
 
 class UserModelView(AppModelView):
 
+    def _list_thumbnail(view, context, model, name):
+
+        if not model.image:
+
+            return ''
+
+        return Markup('<img src="%s">' % url_for('static',
+                                                 filename="images/sign/" + form.thumbgen_filename(model.image)))
+
+    column_formatters = {
+        'image': _list_thumbnail
+    }
+
+    # Alternative way to contribute field is to override it completely.
+    # In this case, Flask-Admin won't attempt to merge various parameters for the field.
+    form_extra_fields = {
+        'image': form.ImageUploadField(u'签名',
+                                      base_path="app/static/images/sign",
+                                      url_relative_path="images/sign/",
+                                      thumbnail_size=(400, 300, 1))
+    }
+
     column_exclude_list = ["create_datetime", "update_datetime", "email", "password", "registration_id"]
 
     form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id", "clocks"]
 
-    labels = dict(region=u"地域", roles=u"权限", specialties=u"专业", employee_no=u"工号", id_no=u"身份证号", phone=u"手机", active=u"状态", gender=u"性别",
-                  username=u"姓名", password=u"密码", notation=u"备注")
+    labels = dict(region=u"地域", roles=u"权限", specialties=u"专业", employee_no=u"工号", id_no=u"身份证号", phone=u"手机",
+                  image=u"签名", active=u"状态", gender=u"性别", username=u"姓名", password=u"密码", notation=u"备注")
 
     column_labels = labels
 
@@ -83,6 +107,18 @@ class UserModelView(AppModelView):
 class LoanModelView(AppModelView):
 
     can_create = False
+
+    def _list_thumbnail(view, context, model, name):
+
+        if not model.attachment:
+
+            return ''
+
+        return Markup('<img src="%s">' % model.attachment)
+
+    column_formatters = {
+        "attachment": _list_thumbnail
+    }
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -246,6 +282,18 @@ class ProjectStageModelView(AppModelView):
 class ReimbursementModelView(AppModelView):
 
     can_create = False
+
+    def _list_thumbnail(view, context, model, name):
+
+        if not model.attachment:
+
+            return ''
+
+        return Markup('<img src="%s">' % model.attachment)
+
+    column_formatters = {
+        "attachment": _list_thumbnail
+    }
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
