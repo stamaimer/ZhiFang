@@ -12,15 +12,11 @@
 
 import traceback
 
-from sqlalchemy.event import listens_for
-
 from flask import abort, current_app, jsonify
 
 from flask_security import auth_token_required, current_user
 
 from app.models.bulletin import Bulletin
-
-from app.utilities import push
 
 from . import api
 
@@ -42,9 +38,3 @@ def select_bulletin():
         current_app.logger.error(traceback.format_exc())
 
         abort(500)
-
-
-@listens_for(Bulletin, "after_insert")
-def push_after_bulletin_insert(mapper, connection, target):
-
-    push(u"你有一条新的通知公告", "all")
