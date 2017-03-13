@@ -45,6 +45,7 @@ def update_user():
 
 
 @api.route("/contact")
+@api.route("/user")
 @auth_token_required
 def select_contact():
 

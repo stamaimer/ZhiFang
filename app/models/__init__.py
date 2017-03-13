@@ -42,7 +42,7 @@ class AppModel(db.Model):
 
             depth -= 1
 
-            exclude = ["create_datetime", "update_datetime", "active", "email", "password", "registration_id"]
+            exclude = ["active", "email", "password", "registration_id"]
 
             columns = [item for item in self.__table__.columns.keys() if item not in exclude]
 

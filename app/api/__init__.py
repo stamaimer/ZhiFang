@@ -18,6 +18,8 @@ from flask import Blueprint, abort, current_app, jsonify, request
 
 from flask_security import auth_token_required, current_user
 
+from flask_sqlalchemy import get_debug_queries
+
 from app.models import db
 from app.models.reimbursement_type import ReimbursementType
 from app.models.project_stage import ProjectStage
@@ -175,6 +177,20 @@ def before_app_request():
     current_app.logger.debug("request form: " + request.form.__str__())
 
     current_app.logger.debug("request data: " + request.data.__str__())
+
+
+@api.after_app_request
+def after_app_request(response):
+
+    for query in get_debug_queries():
+
+        if query.duration * 1000 > 1:
+
+            current_app.logger.debug(query)
+
+    # current_app.logger.debug(response.data)
+
+    return response
 
 
 @api.route("/test")

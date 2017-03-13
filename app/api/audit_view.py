@@ -18,6 +18,7 @@ from flask_security import auth_token_required, current_user
 
 from app.models.audit_view import AuditView
 from app.models.user import User
+from app.models import db
 
 from app.utilities import push
 
@@ -30,7 +31,7 @@ def select_audit_view():
 
     try:
 
-        audit_views = AuditView.query.filter_by(audit_user_id=current_user.id, status=1).all()
+        audit_views = AuditView.query.filter_by(audit_user_id=current_user.id, status=1, result=None).all()
 
         data_dict = dict()
 
@@ -67,9 +68,6 @@ def update_audit_view():
 
             audit_view.advice = advice
 
-            push(u"{}已经{}你的{}申请".format(audit_view.audit_user.username, result, audit_view.audit.type),
-                 audit_view.audit.create_user.registration_id)
-
             if result == u"同意":
 
                 if audit_view._next_:
@@ -85,15 +83,15 @@ def update_audit_view():
 
                     audit_view.audit.status = u"已通过"
 
-                    push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
-                         audit_view.audit.create_user.registration_id)
+                    # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
+                    #      audit_view.audit.create_user.registration_id)
 
             if result == u"驳回":
 
                 audit_view.audit.status = u"已驳回"
 
-                push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
-                     audit_view.audit.create_user.registration_id)
+                # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
+                #      audit_view.audit.create_user.registration_id)
 
             if result == u"转审":
 
@@ -101,6 +99,8 @@ def update_audit_view():
 
                 retrial_audit_view = AuditView(audit_user=User.query.get(retrial_user_id), audit=audit_view.audit,
                                                status=1)
+
+                retrial_audit_view.save()
 
                 audit_view.audit.current = retrial_audit_view
 
@@ -111,6 +111,13 @@ def update_audit_view():
                 push(u"你有一条来自{}的{}申请".format(audit_view.audit.create_user.username, audit_view.audit.type),
                      retrial_audit_view.audit_user.registration_id)
 
+            push(u"{}已经{}你的{}申请".format(audit_view.audit_user.username, result, audit_view.audit.type),
+                 audit_view.audit.create_user.registration_id)
+
+            db.session.commit()
+
+            return '', 204
+
         else:
 
             abort(401)
@@ -120,11 +127,3 @@ def update_audit_view():
         current_app.logger.error(traceback.format_exc())
 
         abort(500)
-
-    finally:
-
-        return '', 204
-
-
-
-

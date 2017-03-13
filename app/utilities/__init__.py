@@ -19,8 +19,12 @@ import jpush
 
 from flask import current_app, request, session
 
+from flask_cors import CORS
+
 from flask_babelex import Babel
 
+
+cors = CORS()
 
 babel = Babel()
 
@@ -124,7 +128,7 @@ def push(content, target="all"):
     #
     #     current_app.logger.error(traceback.format_exc())
 
-    _jpush = jpush.JPush( current_app.config["JPUSH_APP_KEY"], current_app.config["JPUSH_MASTER_SECRET"])
+    _jpush = jpush.JPush(current_app.config["JPUSH_APP_KEY"], current_app.config["JPUSH_MASTER_SECRET"])
 
     _push = _jpush.create_push()
 
