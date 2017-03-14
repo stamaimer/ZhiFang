@@ -193,15 +193,6 @@ def after_app_request(response):
     return response
 
 
-@api.route("/test")
-@auth_token_required
-def test():
-
-    data_dict = dict(key1="value1", key2="value2", user_id=current_user.id)
-
-    return jsonify(data_dict)
-
-
 @api.route("/coor2addr")
 def coor2addr():
 
@@ -209,7 +200,7 @@ def coor2addr():
 
     lon = request.args.get("lon")
 
-    address = ','.join(docoor2addr(lat, lon).split(',')[:4])
+    address = docoor2addr(lat, lon)
 
     if address:
 

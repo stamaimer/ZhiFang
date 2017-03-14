@@ -47,33 +47,76 @@ def get_locale():
     return session.get("lang", "zh_CN")
 
 
+# def coor2addr(lat, lon):
+#
+#     address = ""
+#
+#     payload = dict()
+#
+#     payload["key"] = current_app.config["PICK_POINT_API_KEY"]
+#
+#     payload["lat"] = lat
+#
+#     payload["lon"] = lon
+#
+#     payload["zoom"] = 18
+#
+#     payload["addressdetails"] = 0
+#
+#     headers = dict()
+#
+#     headers["accept-language"] = "zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4"
+#
+#     try:
+#
+#         response = requests.get("https://api.pickpoint.io/v1/reverse", params=payload, headers=headers)
+#
+#         if response.ok:
+#
+#             address = response.json()["display_name"]
+#
+#         else:
+#
+#             current_app.logger.info(response.reason)
+#
+#     except:
+#
+#         current_app.logger.info(traceback.format_exc())
+#
+#     finally:
+#
+#         return address
+
+
 def coor2addr(lat, lon):
 
     address = ""
 
     payload = dict()
 
-    payload["key"] = current_app.config["PICK_POINT_API_KEY"]
+    payload["coordtype"] = "wgs84ll"
 
-    payload["lat"] = lat
+    payload["location"] = ','.join([lat, lon])
 
-    payload["lon"] = lon
+    payload["output"] = "json"
 
-    payload["zoom"] = 18
-
-    payload["addressdetails"] = 0
-
-    headers = dict()
-
-    headers["accept-language"] = "zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4"
+    payload["ak"] = current_app.config["BAIDU_MAP_API_AK"]
 
     try:
 
-        response = requests.get("https://api.pickpoint.io/v1/reverse", params=payload, headers=headers)
+        response = requests.get("http://api.map.baidu.com/geocoder/v2/", params=payload)
 
         if response.ok:
 
-            address = response.json()["display_name"]
+            data = response.json()
+
+            if data["status"] == 0:
+
+                address = data["result"]["formatted_address"]
+
+            else:
+
+                current_app.logger.info(data["status"])
 
         else:
 
