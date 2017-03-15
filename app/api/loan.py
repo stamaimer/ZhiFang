@@ -64,9 +64,9 @@ def create_loan():
 
         st1_audit_view.__next__ = nd2_audit_view
 
-        audit.current = st1_audit_view
-
         db.session.commit()
+
+        audit.current = st1_audit_view
 
         loan = Loan(create_user_id=current_user.id,
                     project_id=project_id,

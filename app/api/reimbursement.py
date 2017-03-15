@@ -67,9 +67,9 @@ def create_reimbursement():
 
         st1_audit_view.__next__ = nd2_audit_view
 
-        audit.current = st1_audit_view
-
         db.session.commit()
+
+        audit.current = st1_audit_view
 
         reimbursement = Reimbursement(reimbursement_type_id=reimbursement_type_id,
                                       create_user_id=current_user.id,
