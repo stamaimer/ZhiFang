@@ -27,7 +27,7 @@ def select_bulletin():
 
     try:
 
-        bulletins = Bulletin.query.all()
+        bulletins = Bulletin.query.order_by(Bulletin.create_datetime.desc()).all()
 
         data_dict = dict(bulletins=[bulletin.to_dict(1) for bulletin in bulletins])
 

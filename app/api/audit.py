@@ -32,7 +32,8 @@ def select_audit():
         if type:
 
             audits = Audit.query.filter(Audit.create_user == current_user,
-                                        Audit.type.op("regexp")('|'.join(type))).all()
+                                        Audit.type.op("regexp")('|'.join(type)))\
+                .order_by(Audit.create_datetime.desc()).all()
 
         else:
 
