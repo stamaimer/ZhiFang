@@ -10,12 +10,14 @@
 """
 
 
+from sqlalchemy.dialects.mysql import MEDIUMBLOB
+
 from . import db, AppModel
 
 
 class AuditItem(AppModel):
 
-    attachment = db.Column(db.BLOB())
+    attachment = db.Column(MEDIUMBLOB())
 
     audit_item_type = db.Column(db.String(9), nullable=0)
 

@@ -13,8 +13,6 @@
 import os
 
 
-PICK_POINT_API_KEY = ""
-
 BAIDU_MAP_API_AK = ""
 
 JPUSH_APP_KEY = ""

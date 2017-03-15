@@ -165,7 +165,7 @@ def init_db():
         # current_app.logger.error(traceback.format_exc())
 
 
-@api.before_app_request
+# @api.before_app_request
 def before_app_request():
 
     current_app.logger.debug("request path: " + request.url)
@@ -179,7 +179,7 @@ def before_app_request():
     current_app.logger.debug("request data: " + request.data.__str__())
 
 
-@api.after_app_request
+# @api.after_app_request
 def after_app_request(response):
 
     for query in get_debug_queries():
@@ -187,8 +187,6 @@ def after_app_request(response):
         if query.duration * 1000 > 1:
 
             current_app.logger.debug(query)
-
-    # current_app.logger.debug(response.data)
 
     return response
 
@@ -212,8 +210,11 @@ def coor2addr():
 
 
 from .reimbursement import *
+from .attachment import *
+from .attendance import *
 from .audit_view import *
 from .utilities import *
+from .bulletin import *
 from .project import *
 from .audit import *
 from .clock import *
