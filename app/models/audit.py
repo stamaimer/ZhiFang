@@ -18,7 +18,7 @@ class Audit(AppModel):
 
     audit_items = db.relationship("AuditItem", backref="audit")
 
-    audit_views = db.relationship("AuditView", foreign_keys=AuditView.audit_id, backref="audit")
+    audit_views = db.relationship("AuditView", foreign_keys=AuditView.audit_id, backref="audit", post_update=1)
 
     current_id = db.Column(db.Integer(), db.ForeignKey("audit_view.id"))
 
