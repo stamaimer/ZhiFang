@@ -29,7 +29,7 @@ def select_bulletin():
 
         bulletins = Bulletin.query.all()
 
-        data_dict = dict(bullets=[bulletin.to_dict(1) for bulletin in bulletins])
+        data_dict = dict(bulletins=[bulletin.to_dict(1) for bulletin in bulletins])
 
         return jsonify(data_dict)
 
