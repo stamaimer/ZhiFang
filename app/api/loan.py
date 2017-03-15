@@ -60,11 +60,9 @@ def create_loan():
 
         st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit=audit, status=1)
 
-        st1_audit_view.save()
-
         st1_audit_view.__next__ = nd2_audit_view
 
-        db.session.commit()
+        st1_audit_view.save()
 
         audit.current = st1_audit_view
 
