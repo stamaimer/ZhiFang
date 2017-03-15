@@ -21,6 +21,7 @@ from app.models.project import Project
 from app.models.audit import Audit
 from app.models.loan import Loan
 from app.models.user import User
+from app.models import db
 
 from app.utilities import push
 
@@ -64,6 +65,8 @@ def create_loan():
         st1_audit_view.__next__ = nd2_audit_view
 
         audit.current = st1_audit_view
+
+        db.session.commit()
 
         loan = Loan(create_user_id=current_user.id,
                     project_id=project_id,

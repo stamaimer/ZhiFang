@@ -22,6 +22,7 @@ from app.models.audit_view import AuditView
 from app.models.project import Project
 from app.models.audit import Audit
 from app.models.user import User
+from app.models import db
 
 from app.utilities import push
 
@@ -67,6 +68,8 @@ def create_reimbursement():
         st1_audit_view.__next__ = nd2_audit_view
 
         audit.current = st1_audit_view
+
+        db.session.commit()
 
         reimbursement = Reimbursement(reimbursement_type_id=reimbursement_type_id,
                                       create_user_id=current_user.id,
