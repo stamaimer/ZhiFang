@@ -52,16 +52,12 @@ def create_loan():
 
         rd3_audit_view.save()
 
-        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit=audit)
+        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit=audit, next_id=rd3_audit_view.id)
 
         nd2_audit_view.save()
 
-        nd2_audit_view._next_ = rd3_audit_view
-
         st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit=audit,
                                    next_id=nd2_audit_view.id, status=1)
-
-        # st1_audit_view.__next__ = nd2_audit_view
 
         st1_audit_view.save()
 
