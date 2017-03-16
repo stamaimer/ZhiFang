@@ -51,7 +51,7 @@ def select_audit():
 
         data_dict = dict()
 
-        data_dict["audits"] = [audit.to_dict() for audit in audits]
+        data_dict["audits"] = [audit.to_dict(6) for audit in audits]
 
         return jsonify(data_dict)
 
