@@ -29,15 +29,25 @@ def select_audit():
 
         type = request.args.getlist("type")
 
+        limit = request.args.get("limit")
+
         if type:
 
             audits = Audit.query.filter(Audit.create_user == current_user,
                                         Audit.type.op("regexp")('|'.join(type)))\
-                .order_by(Audit.create_datetime.desc()).all()
+                .order_by(Audit.create_datetime.desc())
 
         else:
 
-            audits = Audit.query.filter(Audit.create_user == current_user).all()
+            audits = Audit.query.filter(Audit.create_user == current_user).order_by(Audit.create_datetime.desc())
+
+        if limit:
+
+            audits = audits.limit(int(limit)).all()
+
+        else:
+
+            audits = audits.all()
 
         data_dict = dict()
 

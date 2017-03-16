@@ -12,7 +12,7 @@
 
 import traceback
 
-from flask import abort, current_app, jsonify
+from flask import abort, current_app, jsonify, request
 
 from flask_security import auth_token_required, current_user
 
@@ -27,7 +27,15 @@ def select_bulletin():
 
     try:
 
-        bulletins = Bulletin.query.order_by(Bulletin.create_datetime.desc()).all()
+        limit = request.args.get("limit")
+
+        if limit:
+
+            bulletins = Bulletin.query.order_by(Bulletin.create_datetime.desc()).limit(int(limit)).all()
+
+        else:
+
+            bulletins = Bulletin.query.order_by(Bulletin.create_datetime.desc()).all()
 
         data_dict = dict(bulletins=[bulletin.to_dict(1) for bulletin in bulletins])
 
