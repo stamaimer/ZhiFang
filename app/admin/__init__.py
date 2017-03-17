@@ -114,7 +114,7 @@ class LoanModelView(AppModelView):
 
             return ''
 
-        return Markup('<img src="%s">' % model.attachment)
+        return Markup('<img src="%s" style="width:400; height:300">' % model.attachment)
 
     column_formatters = {
         "attachment": _list_thumbnail
@@ -237,10 +237,9 @@ class AuditItemModelView(AppModelView):
 
     can_create = False
 
-    column_exclude_list = ["update_datetime"]
+    column_exclude_list = ["attachment", "update_datetime"]
 
-    labels = dict(create_user=u"创建人", create_datetime=u"创建时间", attachment=u"附件", audit_item_type=u"类型",
-                  audit=u"状态")
+    labels = dict(create_user=u"创建人", create_datetime=u"创建时间", audit_item_type=u"类型", audit=u"状态")
 
     column_labels = labels
 
@@ -289,7 +288,7 @@ class ReimbursementModelView(AppModelView):
 
             return ''
 
-        return Markup('<img src="%s">' % model.attachment)
+        return Markup('<img src="%s" style="width:400; height:300>' % model.attachment)
 
     column_formatters = {
         "attachment": _list_thumbnail
