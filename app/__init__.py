@@ -40,6 +40,10 @@ def create_app(config_name):
 
     babel.init_app(app)
 
+    from utilities.json import AppJSONEncoder
+
+    app.json_encoder = AppJSONEncoder
+
     from models import db
 
     db.init_app(app)
