@@ -19,6 +19,7 @@ JPUSH_APP_KEY = ""
 
 JPUSH_MASTER_SECRET = ""
 
+SENTRY_DSN = ""
 
 SECRET_KEY = os.urandom(47)
 
