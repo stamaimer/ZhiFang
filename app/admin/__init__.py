@@ -116,7 +116,7 @@ class LoanModelView(AppModelView):
 
             return ''
 
-        return Markup('<img src="%s" style="width:100%">' % model.attachment)
+        return Markup('<img src="{}" style="width:100%">'.format(model.attachment))
 
     column_formatters = {
         "attachment": _list_thumbnail
@@ -294,7 +294,7 @@ class ReimbursementModelView(AppModelView):
 
             return ''
 
-        return Markup('<img src="%s" style="width:100%">' % model.attachment)
+        return Markup('<img src="{}" style="width:100%">'.format(model.attachment))
 
     column_formatters = {
         "attachment": _list_thumbnail
