@@ -116,13 +116,15 @@ class LoanModelView(AppModelView):
 
             return ''
 
-        return Markup('<img src="%s" style="width:400px; height:300px">' % model.attachment)
+        return Markup('<img src="%s">' % model.attachment)
 
     column_formatters = {
         "attachment": _list_thumbnail
     }
 
-    column_exclude_list = ["update_datetime", "audit_item_type"]
+    column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
+
+    column_details_exclude_list = ["update_datetime", "audit_item_type"]
 
     labels = dict(project=u"所属项目", create_user=u"创建人", create_datetime=u"创建时间", attachment=u"附件",
                   amount=u"金额", notation=u"备注", audit=u"状态")
@@ -292,13 +294,15 @@ class ReimbursementModelView(AppModelView):
 
             return ''
 
-        return Markup('<img src="%s" style="width:400px; height:300px">' % model.attachment)
+        return Markup('<img src="%s">' % model.attachment)
 
     column_formatters = {
         "attachment": _list_thumbnail
     }
 
-    column_exclude_list = ["update_datetime", "audit_item_type"]
+    column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
+
+    column_details_exclude_list = ["update_datetime", "audit_item_type"]
 
     labels = dict(project=u"所属项目", reimbursement_type=u"报销类型", create_user=u"创建人", create_datetime=u"创建时间",
                   attachment=u"附件", amount=u"金额", notation=u"备注", audit=u"状态")
