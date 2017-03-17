@@ -108,6 +108,8 @@ class LoanModelView(AppModelView):
 
     can_create = False
 
+    can_view_details = True
+
     def _list_thumbnail(view, context, model, name):
 
         if not model.attachment:
@@ -281,6 +283,8 @@ class ProjectStageModelView(AppModelView):
 class ReimbursementModelView(AppModelView):
 
     can_create = False
+
+    can_view_details = True
 
     def _list_thumbnail(view, context, model, name):
 
