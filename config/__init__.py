@@ -33,3 +33,5 @@ class Config(object):
     SQLALCHEMY_COMMIT_ON_TEARDOWN = 0
 
     SQLALCHEMY_TRACK_MODIFICATIONS = 1
+
+    SENTRY_USER_ATTRS = ["username"]

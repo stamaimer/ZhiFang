@@ -116,15 +116,15 @@ def coor2addr(lat, lon):
 
             else:
 
-                current_app.logger.info(data["status"])
+                current_app.logger.error(data["status"])
 
         else:
 
-            current_app.logger.info(response.reason)
+            current_app.logger.error(response.reason)
 
     except:
 
-        current_app.logger.info(traceback.format_exc())
+        current_app.logger.error(traceback.format_exc())
 
     finally:
 

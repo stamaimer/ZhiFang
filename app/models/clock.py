@@ -29,7 +29,7 @@ class Clock(AppModel):
 
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=0)
 
-    user = db.relationship("User", foreign_keys=user_id, backref="clocks")
+    user = db.relationship("User", foreign_keys=user_id)
 
     def __init__(self, notation, position, project_id, user_id):
 

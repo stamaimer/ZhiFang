@@ -10,7 +10,13 @@
 """
 
 
+import logging
+
+from werkzeug.contrib.fixers import ProxyFix
+
 from flask import Flask
+
+from raven.contrib.flask import Sentry
 
 
 def create_app(config_name):
@@ -44,6 +50,10 @@ def create_app(config_name):
 
     app.json_encoder = AppJSONEncoder
 
+    sentry = Sentry()
+
+    sentry.init_app(app, logging=1, level=logging.ERROR)
+
     from models import db
 
     db.init_app(app)
@@ -63,5 +73,7 @@ def create_app(config_name):
     from api import api as api_blueprint
 
     app.register_blueprint(api_blueprint, url_prefix="/api")
+
+    app.wsgi_app = ProxyFix(app.wsgi_app)
 
     return app
