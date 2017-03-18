@@ -28,4 +28,4 @@ def index():
 @http_auth_required
 def analysis():
 
-    return send_file(current_app.static_folder + "/access_log_analysis,html")
+    return send_file(current_app.static_folder + "/access_log_analysis.html")
