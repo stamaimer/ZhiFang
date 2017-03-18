@@ -122,7 +122,7 @@ class LoanModelView(AppModelView):
         "attachment": _list_thumbnail
     }
 
-    column_exclude_list = ["update_datetime", "audit_item_type"]
+    column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
 
     column_details_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -300,7 +300,7 @@ class ReimbursementModelView(AppModelView):
         "attachment": _list_thumbnail
     }
 
-    column_exclude_list = ["update_datetime", "audit_item_type"]
+    column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
 
     column_details_exclude_list = ["update_datetime", "audit_item_type"]
 
