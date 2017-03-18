@@ -10,7 +10,7 @@
 """
 
 
-from datetime import datetime
+from datetime import date, datetime
 
 from flask.json import JSONEncoder
 
@@ -21,7 +21,7 @@ class AppJSONEncoder(JSONEncoder):
 
         try:
 
-            if isinstance(o, datetime):
+            if isinstance(o, datetime) or isinstance(o, date):
 
                 return str(o)
 
