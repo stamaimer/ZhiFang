@@ -72,6 +72,8 @@ class RoleModelView(AppModelView):
 
 class UserModelView(AppModelView):
 
+    can_view_details = True
+
     def _list_thumbnail(view, context, model, name):
 
         if not model.image:
@@ -106,7 +108,11 @@ class UserModelView(AppModelView):
 
 class LoanModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     can_view_details = True
 
@@ -134,7 +140,11 @@ class LoanModelView(AppModelView):
 
 class WorkModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -147,7 +157,11 @@ class WorkModelView(AppModelView):
 
 class AuditModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     column_exclude_list = ["update_datetime"]
 
@@ -158,7 +172,11 @@ class AuditModelView(AppModelView):
 
 class ClockModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     column_exclude_list = ["create_datetime", "update_datetime"]
 
@@ -171,7 +189,11 @@ class ClockModelView(AppModelView):
 
 class LeaveModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     column_exclude_list = ["update_datetime", "audit_item_type"]
 
@@ -194,6 +216,8 @@ class RegionModelView(AppModelView):
 
 class ProjectModelView(AppModelView):
 
+    can_view_details = True
+
     column_exclude_list = ["update_datetime"]
 
     form_excluded_columns = ["update_datetime"]
@@ -205,6 +229,8 @@ class ProjectModelView(AppModelView):
 
 
 class BulletinModelView(AppModelView):
+
+    can_view_details = True
 
     column_exclude_list = ["update_datetime"]
 
@@ -239,7 +265,11 @@ class SpecialtyModelView(AppModelView):
 
 class AuditItemModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     column_exclude_list = ["attachment", "update_datetime"]
 
@@ -250,7 +280,11 @@ class AuditItemModelView(AppModelView):
 
 class AuditViewModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     column_exclude_list = ["_next_", "update_datetime"]
 
@@ -284,7 +318,11 @@ class ProjectStageModelView(AppModelView):
 
 class ReimbursementModelView(AppModelView):
 
+    can_edit = False
+
     can_create = False
+
+    can_delete = False
 
     can_view_details = True
 
