@@ -35,4 +35,15 @@ class AuditView(AppModel):
 
     def __repr__(self):
 
-        return self.audit_user.username
+        if self.result:
+
+            if self.result == u"转审":
+
+                return self.audit_user.username + u" 已于 " + self.update_datetime.__str__() + ' ' \
+                       + self.result + u" 给 " + self._next_.audit_user.username + "<br />" + self.advice + "<br />"
+
+            return self.audit_user.username + u" 已于 " + self.update_datetime.__str__() + ' ' + self.result + "<br />"
+
+        else:
+
+            return u"等待 " + self.audit_user.username + u" 审批<br />"

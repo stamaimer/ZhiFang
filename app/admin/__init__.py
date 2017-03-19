@@ -10,6 +10,8 @@
 """
 
 
+from pypinyin import lazy_pinyin
+
 from jinja2 import Markup
 
 from flask import redirect, request, url_for
@@ -89,18 +91,25 @@ class UserModelView(AppModelView):
 
     # Alternative way to contribute field is to override it completely.
     # In this case, Flask-Admin won't attempt to merge various parameters for the field.
+
+    def namegen(obj, image):
+
+        return ''.join(lazy_pinyin(image.filename))
+
     form_extra_fields = {
         'image': form.ImageUploadField(u'签名',
                                       base_path="app/static/images/sign",
                                       url_relative_path="images/sign/",
-                                      thumbnail_size=(400, 300, 1))
+                                      namegen=namegen)
     }
 
     column_exclude_list = ["create_datetime", "update_datetime", "email", "password", "registration_id"]
 
+    form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id", "clocks"]
+
     column_details_exclude_list = ["email", "registration_id"]
 
-    form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id", "clocks"]
+    column_searchable_list = ["region.text", "username"]
 
     labels = dict(region=u"地域", roles=u"权限", specialties=u"专业", employee_no=u"工号", id_no=u"身份证号", phone=u"手机",
                   image=u"签名", active=u"状态", gender=u"性别", username=u"姓名", password=u"密码", notation=u"备注",
@@ -149,7 +158,7 @@ class WorkModelView(AppModelView):
 
     can_delete = False
 
-    column_exclude_list = ["update_datetime", "audit_item_type"]
+    column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
 
     labels = dict(project=u"所属项目", project_stage=u"所属项目节点", specialty=u"专业", work_type=u"工作内容",
                   create_user=u"创建人", create_datetime=u"创建时间", attachment=u"附件", date=u"所属日期", hour=u"工时",
@@ -166,7 +175,11 @@ class AuditModelView(AppModelView):
 
     can_delete = False
 
-    column_exclude_list = ["update_datetime"]
+    can_view_details = True
+
+    # column_exclude_list = ["update_datetime"]
+
+    column_list = ["current", "create_user", "create_datetime", "status", "type", "audit_items", "audit_views"]
 
     labels = dict(current=u"待审", create_user=u"创建人", create_datetime=u"创建时间", status=u"状态", type=u"类型")
 
@@ -185,6 +198,8 @@ class ClockModelView(AppModelView):
 
     form_excluded_columns = ["create_datetime", "update_datetime"]
 
+    column_searchable_list = ["project.name", "user.username"]
+
     labels = dict(project=u"所属项目", user=u"打卡人", notation=u"备注", position=u"打卡位置", datetime=u"打卡时间")
 
     column_labels = labels
@@ -198,7 +213,9 @@ class LeaveModelView(AppModelView):
 
     can_delete = False
 
-    column_exclude_list = ["update_datetime", "audit_item_type"]
+    column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
+
+    column_searchable_list = ["create_user.username"]
 
     labels = dict(leave_type=u"请假类型", create_user=u"创建人", create_datetime=u"创建时间", attachment=u"附件",
                   notation=u"备注", beg_date=u"开始日期", end_date=u"结束日期", last=u"持续天数", audit=u"状态")
@@ -239,7 +256,7 @@ class BulletinModelView(AppModelView):
 
     form_excluded_columns = ["update_datetime"]
 
-    labels = dict(create_datetime=u"创建时间", title=u"标题", content=u"内容")
+    labels = dict(create_datetime=u"创建时间", update_datetime=u"修改时间", title=u"标题", content=u"内容")
 
     column_labels = labels
 
