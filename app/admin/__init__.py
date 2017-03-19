@@ -98,10 +98,13 @@ class UserModelView(AppModelView):
 
     column_exclude_list = ["create_datetime", "update_datetime", "email", "password", "registration_id"]
 
+    column_details_exclude_list = ["email", "registration_id"]
+
     form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id", "clocks"]
 
     labels = dict(region=u"地域", roles=u"权限", specialties=u"专业", employee_no=u"工号", id_no=u"身份证号", phone=u"手机",
-                  image=u"签名", active=u"状态", gender=u"性别", username=u"姓名", password=u"密码", notation=u"备注")
+                  image=u"签名", active=u"状态", gender=u"性别", username=u"姓名", password=u"密码", notation=u"备注",
+                  create_datetime=u"创建时间", update_datetime=u"修改时间")
 
     column_labels = labels
 
@@ -223,7 +226,7 @@ class ProjectModelView(AppModelView):
     form_excluded_columns = ["update_datetime"]
 
     labels = dict(region=u"所属地域", charge_user=u"负责人", current_stage=u"当前节点", create_datetime=u"创建时间",
-                  no=u"项目编号", name=u"项目名称")
+                  update_datetime=u"修改时间", no=u"项目编号", name=u"项目名称")
 
     column_labels = labels
 
