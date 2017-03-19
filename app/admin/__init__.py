@@ -186,11 +186,17 @@ class AuditModelView(AppModelView):
 
     def _current_formatter(view, context, model, name):
 
-        return model.current.audit_user.username
+        if model.status == u"审批中":
+
+            return model.current.audit_user.username
+
+        else:
+
+            return ""
 
     def _audit_views_formatter(view, context, model, name):
 
-        return Markup("<br />".join(["<pre>" + item.__repr__() + "</pre>" for item in model.audit_views]))
+        return Markup("<br />".join(["<pre>" + item.__repr__() + "</pre>" for item in model.audit_views if item.status == 1]))
 
     def _audit_items_formatter(view, context, model, name):
 

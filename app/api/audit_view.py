@@ -87,8 +87,6 @@ def update_audit_view():
 
                     audit_view.audit.status = u"已通过"
 
-                    audit_view.audit.current = None
-
                     # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
                     #      audit_view.audit.create_user.registration_id)
 
@@ -96,17 +94,15 @@ def update_audit_view():
 
                 audit_view.audit.status = u"已驳回"
 
-                audit_view.audit.current = None
-
-                audit_views = audit_view.audit.audit_views
-
-                for item in audit_views:
-
-                    if item.status == 0:
-
-                        db.session.delete(item)
-
-                        db.session.commit()
+                # audit_views = audit_view.audit.audit_views
+                #
+                # for item in audit_views:
+                #
+                #     if item.status == 0:
+                #
+                #         db.session.delete(item)
+                #
+                #         db.session.commit()
 
                 # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
                 #      audit_view.audit.create_user.registration_id)
