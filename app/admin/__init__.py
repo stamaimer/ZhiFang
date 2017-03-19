@@ -53,15 +53,13 @@ class AppModelView(ModelView):
 
     """
 
-    # def is_accessible(self):
-    #
-    #     return current_user.has_role("admin")
-    #
-    # def inaccessible_callback(self, name, **kwargs):
-    #
-    #     return redirect(url_for("security.login", next=request.url))
+    def is_accessible(self):
 
-    pass
+        return current_user.has_role("admin")
+
+    def inaccessible_callback(self, name, **kwargs):
+
+        return redirect(url_for("security.login", next=request.url))
 
 
 class RoleModelView(AppModelView):
