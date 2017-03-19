@@ -104,7 +104,7 @@ class UserModelView(AppModelView):
                                       namegen=namegen)
     }
 
-    column_exclude_list = ["create_datetime", "update_datetime", "email", "password", "registration_id"]
+    column_exclude_list = ["create_datetime", "update_datetime", "email", "image", "password", "registration_id"]
 
     form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id", "clocks"]
 
@@ -308,7 +308,7 @@ class BulletinModelView(AppModelView):
 
     can_view_details = True
 
-    column_exclude_list = ["update_datetime"]
+    column_exclude_list = ["update_datetime", "content"]
 
     form_excluded_columns = ["update_datetime"]
 
