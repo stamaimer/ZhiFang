@@ -10,7 +10,8 @@
 """
 
 
-from pypinyin import lazy_pinyin
+import time
+import hashlib
 
 from jinja2 import Markup
 
@@ -82,8 +83,8 @@ class UserModelView(AppModelView):
 
             return ''
 
-        return Markup('<img src="%s">' % url_for('static',
-                                                 filename="images/sign/" + form.thumbgen_filename(model.image)))
+        return Markup('<img src="{}" style="width:100px">'.format(url_for('static',
+                                                                          filename="images/sign/" + model.image)))
 
     column_formatters = {
         'image': _list_thumbnail
@@ -94,7 +95,7 @@ class UserModelView(AppModelView):
 
     def namegen(obj, image):
 
-        return ''.join(lazy_pinyin(image.filename))
+        return hashlib.md5(str(time.time())).hexdigest()[:28]
 
     form_extra_fields = {
         'image': form.ImageUploadField(u'签名',
@@ -158,7 +159,11 @@ class WorkModelView(AppModelView):
 
     can_delete = False
 
+    can_view_details = True
+
     column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
+
+    column_details_exclude_list = column_exclude_list
 
     labels = dict(project=u"所属项目", project_stage=u"所属项目节点", specialty=u"专业", work_type=u"工作内容",
                   create_user=u"创建人", create_datetime=u"创建时间", attachment=u"附件", date=u"所属日期", hour=u"工时",
@@ -179,9 +184,50 @@ class AuditModelView(AppModelView):
 
     # column_exclude_list = ["update_datetime"]
 
-    column_list = ["current", "create_user", "create_datetime", "status", "type", "audit_items", "audit_views"]
+    def _current_formatter(view, context, model, name):
 
-    labels = dict(current=u"待审", create_user=u"创建人", create_datetime=u"创建时间", status=u"状态", type=u"类型")
+        return model.current.audit_user.username
+
+    def _audit_views_formatter(view, context, model, name):
+
+        return Markup("<br />".join([item.__repr__() for item in model.audit_views]))
+
+    def _audit_items_formatter(view, context, model, name):
+
+        if model.audit_items[0].audit_item_type == u"请假":
+
+            return Markup(u"<a href='{}'>{}</a>".format(url_for("leave.details_view",
+                                                                id=model.audit_items[0].id),
+                                                                model.type))
+
+        if model.audit_items[0].audit_item_type == u"工时":
+
+            return Markup(u"<a href='{}'>{}</a>".format(url_for("work.details_view",
+                                                                id=model.audit_items[0].id),
+                                                                model.type))
+
+        if model.audit_items[0].audit_item_type == u"借款":
+
+            return Markup(u"<a href='{}'>{}</a>".format(url_for("loan.details_view",
+                                                                id=model.audit_items[0].id),
+                                                                model.type))
+
+        if model.audit_items[0].audit_item_type == u"报销":
+
+            return Markup(u"<a href='{}'>{}</a>".format(url_for("reimbursement.details_view",
+                                                                id=model.audit_items[0].id),
+                                                                model.type))
+
+    column_formatters = {
+        "current": _current_formatter,
+        "audit_views": _audit_views_formatter,
+        "audit_items": _audit_items_formatter
+    }
+
+    column_list = ["current", "create_user", "create_datetime", "status", "audit_items", "audit_views"]
+
+    labels = dict(current=u"待审", create_user=u"创建人", create_datetime=u"创建时间", status=u"状态", type=u"类型",
+                  audit_items=u"详情", audit_views=u"审批流程")
 
     column_labels = labels
 
@@ -213,7 +259,11 @@ class LeaveModelView(AppModelView):
 
     can_delete = False
 
+    can_view_details = True
+
     column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
+
+    column_details_exclude_list = column_exclude_list
 
     column_searchable_list = ["create_user.username"]
 
@@ -389,8 +439,8 @@ admin.add_view(WorkModelView(Work, db.session, name=u"工时"))
 admin.add_view(LoanModelView(Loan, db.session, name=u"借款"))
 admin.add_view(ReimbursementModelView(Reimbursement, db.session, name=u"报销"))
 admin.add_view(BulletinModelView(Bulletin, db.session, name=u"公告"))
-admin.add_view(AuditItemModelView(AuditItem, db.session, name=u"审批项目"))
-admin.add_view(AuditViewModelView(AuditView, db.session, name=u"审批条目"))
+# admin.add_view(AuditItemModelView(AuditItem, db.session, name=u"审批项目"))
+# admin.add_view(AuditViewModelView(AuditView, db.session, name=u"审批条目"))
 admin.add_view(AuditModelView(Audit, db.session, name=u"审批"))
 admin.add_view(RoleModelView(Role, db.session, name=u"权限", category=u"辅助数据"))
 admin.add_view(RegionModelView(Region, db.session, name=u"地域", category=u"辅助数据"))
