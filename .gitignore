@@ -32,5 +32,5 @@ log/access_log
 # static
 
 app/static/access_log_analysis.html
-app/static/images/sign/*.jpg
-app/static/images/sign/*.png
+!app/static/images/sign/placeholder
+app/static/images/sign/*
