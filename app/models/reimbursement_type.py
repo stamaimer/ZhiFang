@@ -17,7 +17,7 @@ class ReimbursementType(AppModel):
 
     text = db.Column(db.String(9), unique=1)
 
-    def __init__(self, text):
+    def __init__(self, text=""):
 
         self.text = text
 
