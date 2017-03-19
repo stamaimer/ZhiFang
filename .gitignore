@@ -33,3 +33,4 @@ log/access_log
 
 app/static/access_log_analysis.html
 app/static/images/sign/*.jpg
+app/static/images/sign/*.png
