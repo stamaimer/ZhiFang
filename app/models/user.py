@@ -23,7 +23,7 @@ class User(AppModel, UserMixin):
 
     email = db.Column(db.String(128), unique=True)  # 邮箱 不填
 
-    phone = db.Column(db.String(128), unique=True)  # 手机
+    phone = db.Column(db.String(128), unique=True, nullable=False)  # 手机
 
     image = db.Column(db.String(128))  # 签名
 
@@ -31,9 +31,9 @@ class User(AppModel, UserMixin):
 
     gender = db.Column(db.Enum(u"男", u"女"))  # 性别
 
-    username = db.Column(db.String(128))  # 姓名
+    username = db.Column(db.String(128), nullable=False)  # 姓名
 
-    password = db.Column(db.String(128))  # 密码
+    password = db.Column(db.String(128), nullable=False)  # 密码
 
     notation = db.Column(db.Text())  # 备注
 

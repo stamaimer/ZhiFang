@@ -17,7 +17,7 @@ from . import db, AppModel
 
 class Role(AppModel, RoleMixin):
 
-    name = db.Column(db.String(128), unique=True)
+    name = db.Column(db.String(128), unique=True, nullable=False)
 
     description = db.Column(db.String(128))
 

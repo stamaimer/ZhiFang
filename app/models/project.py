@@ -17,7 +17,7 @@ class Project(AppModel):
 
     no = db.Column(db.String(128))
 
-    name = db.Column(db.String(128), unique=1)
+    name = db.Column(db.String(128), unique=1, nullable=0)
 
     region_id = db.Column(db.Integer(), db.ForeignKey("region.id"))
 

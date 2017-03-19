@@ -15,7 +15,7 @@ from . import db, AppModel
 
 class Region(AppModel):
 
-    text = db.Column(db.String(128), unique=1)
+    text = db.Column(db.String(128), unique=1, nullable=0)
 
     charge_user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
 

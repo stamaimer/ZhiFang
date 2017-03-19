@@ -15,7 +15,7 @@ from . import db, AppModel
 
 class WorkType(AppModel):
 
-    text = db.Column(db.String(9), unique=1)
+    text = db.Column(db.String(9), unique=True, nullable=False)
 
     def __init__(self, text=""):
 
