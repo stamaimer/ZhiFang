@@ -32,4 +32,4 @@ log/access_log
 # static
 
 app/static/access_log_analysis.html
-
+app/static/images/sign/*.jpg
