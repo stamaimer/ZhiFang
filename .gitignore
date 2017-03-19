@@ -28,3 +28,8 @@ instance/config.py
 !log
 log/error_log
 log/access_log
+
+# static
+
+app/static/access_log_analysis.html
+
