@@ -39,11 +39,11 @@ class AuditView(AppModel):
 
             if self.result == u"转审":
 
-                return self.audit_user.username + u"&#09;已于 " + self.update_datetime.__str__() + ' ' \
+                return self.audit_user.username + u"\t已于 " + self.update_datetime.__str__() + ' ' \
                        + self.result + u" 给 " + self._next_.audit_user.username + "\t" + self.advice
             else:
 
-                return self.audit_user.username + u"&#09;已于 " + self.update_datetime.__str__() + ' ' \
+                return self.audit_user.username + u"\t已于 " + self.update_datetime.__str__() + ' ' \
                        + self.result + "\t" + (self.advice if self.advice else "")
 
         else:

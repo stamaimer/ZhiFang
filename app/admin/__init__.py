@@ -53,13 +53,15 @@ class AppModelView(ModelView):
 
     """
 
-    def is_accessible(self):
+    # def is_accessible(self):
+    #
+    #     return current_user.has_role("admin")
+    #
+    # def inaccessible_callback(self, name, **kwargs):
+    #
+    #     return redirect(url_for("security.login", next=request.url))
 
-        return current_user.has_role("admin")
-
-    def inaccessible_callback(self, name, **kwargs):
-
-        return redirect(url_for("security.login", next=request.url))
+    pass
 
 
 class RoleModelView(AppModelView):
@@ -190,7 +192,7 @@ class AuditModelView(AppModelView):
 
     def _audit_views_formatter(view, context, model, name):
 
-        return Markup("<br />".join([item.__repr__() for item in model.audit_views]))
+        return Markup("<br />".join(["<pre>" + item.__repr__() + "</pre>" for item in model.audit_views]))
 
     def _audit_items_formatter(view, context, model, name):
 

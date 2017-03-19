@@ -12,6 +12,8 @@
 
 import traceback
 
+from sqlalchemy.sql import func
+
 from flask import abort, current_app, jsonify, request
 
 from flask_security import auth_token_required, current_user
@@ -68,6 +70,8 @@ def update_audit_view():
 
             audit_view.advice = advice
 
+            audit_view.update_datetime = func.now()
+
             if result == u"同意":
 
                 if audit_view._next_:
@@ -83,12 +87,26 @@ def update_audit_view():
 
                     audit_view.audit.status = u"已通过"
 
+                    audit_view.audit.current = None
+
                     # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
                     #      audit_view.audit.create_user.registration_id)
 
             if result == u"驳回":
 
                 audit_view.audit.status = u"已驳回"
+
+                audit_view.audit.current = None
+
+                audit_views = audit_view.audit.audit_views
+
+                for item in audit_views:
+
+                    if item.status == 0:
+
+                        db.session.delete(item)
+
+                        db.session.commit()
 
                 # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
                 #      audit_view.audit.create_user.registration_id)
