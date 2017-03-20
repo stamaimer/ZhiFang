@@ -453,6 +453,8 @@ class BulletinModelView(AppModelView):
 
     create_template = "admin/create.html"
 
+    details_template = "admin/details.html"
+
     form_overrides = {"content": CKTextAreaField}
 
     def _list_thumbnail(view, context, model, name):
