@@ -131,7 +131,7 @@ def coor2addr(lat, lon):
         return address
 
 
-def push(content, target="all"):
+def push(content, *target):
 
     # base64_auth_string = base64.b64encode(':'.join([
     #     current_app.config["JPUSH_APP_KEY"],
@@ -177,13 +177,13 @@ def push(content, target="all"):
 
     _jpush.set_logging("DEBUG")
 
-    if target == "all":
+    if target:
 
-        _push.audience = jpush.all_
+        _push.audience = jpush.audience(jpush.registration_id(target))
 
     else:
 
-        _push.audience = jpush.audience(jpush.registration_id(target,))
+        _push.audience = jpush.all_
 
     _push.notification = jpush.notification(alert=content)
 

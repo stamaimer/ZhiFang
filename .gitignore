@@ -33,4 +33,6 @@ log/access_log
 
 app/static/access_log_analysis.html
 !app/static/images/sign/placeholder
+!app/static/images/bulletin/placeholder
 app/static/images/sign/*
+app/static/images/bulletin/*

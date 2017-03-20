@@ -29,13 +29,15 @@ def select_bulletin():
 
         limit = request.args.get("limit")
 
+        query = Bulletin.query.filter(Bulletin.authorized_users.any(id=current_user.id))
+
         if limit:
 
-            bulletins = Bulletin.query.order_by(Bulletin.create_datetime.desc()).limit(int(limit)).all()
+            bulletins = query.order_by(Bulletin.create_datetime.desc()).limit(int(limit)).all()
 
         else:
 
-            bulletins = Bulletin.query.order_by(Bulletin.create_datetime.desc()).all()
+            bulletins = query.order_by(Bulletin.create_datetime.desc()).all()
 
         data_dict = dict(bulletins=[bulletin.to_dict(1) for bulletin in bulletins])
 

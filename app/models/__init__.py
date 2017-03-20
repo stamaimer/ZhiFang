@@ -70,8 +70,12 @@ class AppModel(db.Model):
 
 
 roles_users = db.Table("roles_users",
-                       db.Column("role_id", db.Integer(), db.ForeignKey("user.id")),
-                       db.Column("user_id", db.Integer(), db.ForeignKey("role.id")))
+                       db.Column("role_id", db.Integer(), db.ForeignKey("role.id")),
+                       db.Column("user_id", db.Integer(), db.ForeignKey("user.id")))
+
+bulletins_users = db.Table("bulletins_users",
+                           db.Column("bulletin_id", db.Integer(), db.ForeignKey("bulletin.id")),
+                           db.Column("user_id", db.Integer(), db.ForeignKey("user.id")))
 
 specialties_users = db.Table("specialties_users",
                              db.Column("specialty_id", db.Integer(), db.ForeignKey("specialty.id")),
