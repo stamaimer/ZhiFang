@@ -453,9 +453,13 @@ class BulletinModelView(AppModelView):
 
     create_template = "admin/create.html"
 
-    details_template = "admin/details.html"
+    # details_template = "admin/details.html"
 
     form_overrides = {"content": CKTextAreaField}
+
+    def _display_html_code(view, context, model, name):
+
+        return Markup(model.content)
 
     def _list_thumbnail(view, context, model, name):
 
@@ -470,7 +474,8 @@ class BulletinModelView(AppModelView):
         return Markup("<br />".join([gen_img(image) for image in ast.literal_eval(model.image)]))
 
     column_formatters = {
-        'image': _list_thumbnail
+        'image': _list_thumbnail,
+        'content': _display_html_code
     }
 
     # Alternative way to contribute field is to override it completely.
