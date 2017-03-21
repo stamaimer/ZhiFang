@@ -469,7 +469,8 @@ class BulletinModelView(AppModelView):
 
         def gen_img(filename):
 
-            return '<img src="{}">'.format(url_for('static', filename="images/bulletin/" + form.thumbgen_filename(image)))
+            return '<img src="{}">'.format(url_for('static', filename="images/bulletin/"
+                                                                      + form.thumbgen_filename(filename)))
 
         return Markup("<br />".join([gen_img(image) for image in ast.literal_eval(model.image)]))
 
