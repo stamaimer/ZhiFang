@@ -16,6 +16,8 @@ from werkzeug.contrib.fixers import ProxyFix
 
 from flask import Flask
 
+from app.form import AppLoginForm
+
 from raven.contrib.flask import Sentry
 
 
@@ -60,7 +62,7 @@ def create_app(config_name):
 
     from security import security
 
-    security.init_app(app)
+    security.init_app(app, login_form=AppLoginForm)
 
     from admin import admin
 
