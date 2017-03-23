@@ -29,6 +29,7 @@ from flask_security import current_user
 
 from flask_admin import Admin, form
 from flask_admin.helpers import get_url
+from flask_admin.contrib import fileadmin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form.upload import ImageUploadField
 from flask_admin._compat import string_types, urljoin
@@ -648,3 +649,4 @@ admin.add_view(SpecialtyModelView(Specialty, db.session, name=u"专业类型", c
 admin.add_view(LeaveTypeModelView(LeaveType, db.session, name=u"请假类型", category=u"辅助数据"))
 admin.add_view(ProjectStageModelView(ProjectStage, db.session, name=u"项目节点", category=u"辅助数据"))
 admin.add_view(ReimbursementTypeModelView(ReimbursementType, db.session, name=u"报销类型", category=u"辅助数据"))
+admin.add_view(fileadmin.FileAdmin("app/static/apk", "/static/apk/", name="Android"))

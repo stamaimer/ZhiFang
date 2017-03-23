@@ -32,7 +32,9 @@ log/access_log
 # static
 
 app/static/access_log_analysis.html
+!app/static/apk/placeholder
 !app/static/images/sign/placeholder
 !app/static/images/bulletin/placeholder
+app/static/apk/*
 app/static/images/sign/*
 app/static/images/bulletin/*

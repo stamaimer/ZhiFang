@@ -46,8 +46,7 @@ class User(AppModel, UserMixin):
     roles = db.relationship("Role", secondary=roles_users,
                             backref=db.backref("users", lazy="dynamic"))
 
-    specialties = db.relationship("Specialty", secondary=specialties_users,
-                                  backref=db.backref("users", lazy="dynamic"))
+    specialties = db.relationship("Specialty", secondary=specialties_users)
 
     def __init__(self, phone="", username="", password="", region=None, roles=[]):
 
