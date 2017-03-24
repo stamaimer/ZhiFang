@@ -33,8 +33,7 @@ def select_audit():
 
         if type:
 
-            audits = Audit.query.filter(Audit.create_user == current_user,
-                                        Audit.type.op("regexp")('|'.join(type)))\
+            audits = Audit.query.filter(Audit.create_user == current_user, Audit.type.op("regexp")('|'.join(type)))\
                 .order_by(Audit.create_datetime.desc())
 
         else:
@@ -51,7 +50,32 @@ def select_audit():
 
         data_dict = dict()
 
-        data_dict["audits"] = [audit.to_dict(6) for audit in audits]
+        data_dict["audits"] = [dict(id=audit.id,
+                                    type=audit.type,
+                                    status=audit.status,
+                                    create_datetime=audit.create_datetime,
+                                    update_datetime=audit.update_datetime,
+                                    create_user=dict(id=audit.create_user.id, username=audit.create_user.username),
+                                    audit_item=audit.audit_items[0].to_dict(2, include=["leave_type", "project", "project_stage", "specialty", "work_type", "reimbursement_type"]),
+                                    current=dict(id=audit.current.id,
+                                                 advice=audit.current.advice,
+                                                 status=audit.current.status,
+                                                 result=audit.current.result,
+                                                 audit_user=dict(id=audit.current.audit_user.id,
+                                                                 username=audit.current.audit_user.username),
+                                                 last=dict(id=audit.current.last.id,
+                                                           advice=audit.current.last.advice,
+                                                           status=audit.current.last.status,
+                                                           result=audit.current.last.result,
+                                                           audit_user=dict(id=audit.current.last.audit_user.id,
+                                                                           username=audit.current.last.audit_user.username),
+                                                           last=dict(id=audit.current.last.last.id,
+                                                                     advice=audit.current.last.last.advice,
+                                                                     status=audit.current.last.last.status,
+                                                                     result=audit.current.last.last.result,
+                                                                     audit_user=dict(id=audit.current.last.last.audit_user.id,
+                                                                                     username=audit.current.last.last.audit_user.username)) if audit.current.last.last else None) if audit.current.last else None))
+                               for audit in audits]
 
         return jsonify(data_dict)
 

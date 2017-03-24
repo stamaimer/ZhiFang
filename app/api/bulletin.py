@@ -10,6 +10,7 @@
 """
 
 
+import ast
 import traceback
 
 from flask import abort, current_app, jsonify, request
@@ -39,7 +40,9 @@ def select_bulletin():
 
             bulletins = query.order_by(Bulletin.create_datetime.desc()).all()
 
-        data_dict = dict(bulletins=[bulletin.to_dict(1) for bulletin in bulletins])
+        data_dict = dict(bulletins=[dict(id=bulletin.id, title=bulletin.title, content=bulletin.content,
+                                         image=ast.literal_eval(bulletin.image))
+                                    for bulletin in bulletins])
 
         return jsonify(data_dict)
 

@@ -153,6 +153,8 @@ class LoanModelView(AppModelView):
         "attachment": _list_thumbnail
     }
 
+    column_default_sort = ("create_datetime", 1)
+
     column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
 
     column_details_exclude_list = ["update_datetime", "audit_item_type"]
@@ -172,6 +174,8 @@ class WorkModelView(AppModelView):
     can_delete = False
 
     can_view_details = True
+
+    column_default_sort = ("create_datetime", 1)
 
     column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
 
@@ -242,6 +246,8 @@ class AuditModelView(AppModelView):
         "audit_items": _audit_items_formatter
     }
 
+    column_default_sort = ("create_datetime", 1)
+
     column_list = ["current", "create_user", "create_datetime", "status", "audit_items", "audit_views"]
 
     labels = dict(current=u"待审", create_user=u"创建人", create_datetime=u"创建时间", status=u"状态", type=u"类型",
@@ -257,6 +263,8 @@ class ClockModelView(AppModelView):
     can_create = False
 
     can_delete = False
+
+    column_default_sort = ("create_datetime", 1)
 
     column_exclude_list = ["create_datetime", "update_datetime"]
 
@@ -278,6 +286,8 @@ class LeaveModelView(AppModelView):
     can_delete = False
 
     can_view_details = True
+
+    column_default_sort = ("create_datetime", 1)
 
     column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
 
@@ -454,8 +464,6 @@ class BulletinModelView(AppModelView):
 
     create_template = "admin/create.html"
 
-    # details_template = "admin/details.html"
-
     form_overrides = {"content": CKTextAreaField}
 
     def _display_html_code(view, context, model, name):
@@ -498,6 +506,8 @@ class BulletinModelView(AppModelView):
     }
 
     # column_exclude_list = ["update_datetime", "content"]
+
+    column_default_sort = ("create_datetime", 1)
 
     column_list = ["create_datetime", "title", "authorized_users"]
 
@@ -607,6 +617,8 @@ class ReimbursementModelView(AppModelView):
     column_formatters = {
         "attachment": _list_thumbnail
     }
+
+    column_default_sort = ("create_datetime", 1)
 
     column_exclude_list = ["attachment", "update_datetime", "audit_item_type"]
 

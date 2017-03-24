@@ -10,11 +10,12 @@
 """
 
 
+import time
 import traceback
 
 from sqlalchemy.exc import IntegrityError
 
-from flask import Blueprint, abort, current_app, jsonify, request
+from flask import Blueprint, abort, current_app, jsonify, request, g
 
 from flask_security import auth_token_required, current_user
 
@@ -106,7 +107,8 @@ def init_db():
 
     try:
 
-        for text in [u"送电电气", u"送电结构", u"变电一次", u"变电二次", u"勘测", u"配网", u"技经", u"其他"]:
+        for text in [u"送电电气", u"送电结构", u"变电一次", u"变电二次", u"系统规划",
+                     u"勘测", u"配网", u"技经", u"土建", u"通信", u"其他"]:
 
             specialty = Specialty(text)
 
@@ -158,6 +160,10 @@ def init_db():
 
             region.save()
 
+        region = Region(u"海南", User.query.filter_by(username=u"黄福水").first())
+
+        region.save()
+
     except IntegrityError:
 
         db.session.rollback()
@@ -165,8 +171,10 @@ def init_db():
         # current_app.logger.error(traceback.format_exc())
 
 
-# @api.before_app_request
+@api.before_app_request
 def before_app_request():
+
+    g.start = time.clock()
 
     current_app.logger.debug("request path: " + request.url)
 
@@ -179,7 +187,7 @@ def before_app_request():
     current_app.logger.debug("request data: " + request.data.__str__())
 
 
-# @api.after_app_request
+@api.after_app_request
 def after_app_request(response):
 
     for query in get_debug_queries():
@@ -187,6 +195,8 @@ def after_app_request(response):
         if query.duration * 1000 > 1:
 
             current_app.logger.debug(query)
+
+    current_app.logger.debug(time.clock() - g.start)
 
     return response
 

@@ -29,8 +29,8 @@ def select_attachment(audit_item_id):
 
         if audit_item and audit_item.attachment:
 
-                return re.sub("data:image/jpeg;base64,", '', audit_item.attachment).decode("base64")\
-                    , {"content-type": "image/jpeg"}
+                return re.sub("data:image/jpeg;base64,", '', audit_item.attachment).decode("base64"), \
+                       {"content-type": "image/jpeg"}
 
         else:
 

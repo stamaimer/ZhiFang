@@ -29,17 +29,17 @@ def create_clock():
 
         request_json = request.get_json(force=1)
 
-        notation = request_json["notation"]
+        notation = request_json.get("notation")
 
-        position = request_json["position"]
+        position = request_json.get("position")
 
-        project_id = request_json["project_id"]
+        project_id = request_json.get("project_id")
 
         clock = Clock(notation, position, project_id, current_user.id)
 
         clock.save()
 
-        data_dict = dict(clock=clock.to_dict())
+        data_dict = dict(clock_id=clock.id)
 
         return jsonify(data_dict)
 

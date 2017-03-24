@@ -32,8 +32,7 @@ def get_reimbursement_type():
 
         data_dict = dict()
 
-        data_dict["reimbursement_types"] = [reimbursement_type.to_dict()
-                                           for reimbursement_type in reimbursement_types]
+        data_dict["reimbursement_types"] = [reimbursement_type.to_dict() for reimbursement_type in reimbursement_types]
 
         return jsonify(data_dict)
 

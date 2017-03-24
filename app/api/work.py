@@ -34,19 +34,19 @@ def create_work():
 
         request_json = request.get_json(force=1)
 
-        project_stage_id = request_json["project_stage_id"]
+        project_stage_id = request_json.get("project_stage_id")
 
-        specialty_id = request_json["specialty_id"]
+        specialty_id = request_json.get("specialty_id")
 
-        work_type_id = request_json["work_type_id"]
+        work_type_id = request_json.get("work_type_id")
 
-        project_id = request_json["project_id"]
+        project_id = request_json.get("project_id")
 
-        notation = request_json["notation"]
+        notation = request_json.get("notation")
 
-        hour = request_json["hour"]
+        hour = request_json.get("hour")
 
-        date = request_json["date"]
+        date = request_json.get("date")
 
         audit = Audit(create_user=current_user, type=u"工时")
 
@@ -73,7 +73,7 @@ def create_work():
         push(u"你有一条来自{}的{}申请".format(current_user.username, audit.type),
              st1_audit_view.audit_user.registration_id)
 
-        data_dict = dict(work=work.to_dict())
+        data_dict = dict(work_id=work.id)
 
         return jsonify(data_dict)
 
@@ -82,8 +82,3 @@ def create_work():
         current_app.logger.error(traceback.format_exc())
 
         abort(500)
-
-
-
-
-

@@ -56,15 +56,15 @@ def update_audit_view():
 
         request_json = request.get_json(force=1)
 
-        audit_view_id = request_json["id"]
+        audit_view_id = request_json.get("id")
 
         audit_view = AuditView.query.get(audit_view_id)
 
         if current_user == audit_view.audit_user:
 
-            result = request_json["result"]
+            result = request_json.get("result")
 
-            advice = request_json["advice"]
+            advice = request_json.get("advice")
 
             audit_view.result = result
 
@@ -81,7 +81,7 @@ def update_audit_view():
                     audit_view.audit.current = audit_view._next_
 
                     push(u"你有一条来自{}的{}申请".format(audit_view.audit.create_user.username, audit_view.audit.type),
-                         audit_view._next_.audit_user.registration_id)
+                         audit_view._next_.audit_user.registration_id)  #
 
                 else:
 
@@ -109,7 +109,7 @@ def update_audit_view():
 
             if result == u"转审":
 
-                retrial_user_id = request_json["retrail_user_id"]
+                retrial_user_id = request_json.get("retrail_user_id")
 
                 retrial_audit_view = AuditView(audit_user=User.query.get(retrial_user_id), audit=audit_view.audit,
                                                status=1)
@@ -123,7 +123,7 @@ def update_audit_view():
                 audit_view._next_ = retrial_audit_view
 
                 push(u"你有一条来自{}的{}申请".format(audit_view.audit.create_user.username, audit_view.audit.type),
-                     retrial_audit_view.audit_user.registration_id)
+                     retrial_audit_view.audit_user.registration_id)  #
 
             push(u"{}已经{}你的{}申请".format(audit_view.audit_user.username, result, audit_view.audit.type),
                  audit_view.audit.create_user.registration_id)

@@ -24,4 +24,3 @@ class LeaveType(AppModel):
     def __repr__(self):
 
         return self.text
-    

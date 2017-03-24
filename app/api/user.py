@@ -29,7 +29,7 @@ def update_user():
 
         request_json = request.get_json(force=1)
 
-        registration_id = request_json["registration_id"]
+        registration_id = request_json.get("registration_id")
 
         current_user.registration_id = registration_id
 
@@ -45,7 +45,6 @@ def update_user():
 
 
 @api.route("/contact")
-@api.route("/user")
 @auth_token_required
 def select_contact():
 
@@ -53,7 +52,7 @@ def select_contact():
 
         users = User.query.all()
 
-        data_dict = dict(users=[user.to_dict(1) for user in users])
+        data_dict = dict(users=[dict(id=user.id, username=user.username, phone=user.phone) for user in users])
 
         return jsonify(data_dict)
 

@@ -36,7 +36,9 @@ class AppModel(db.Model):
 
         db.session.commit()
 
-    def to_dict(self, depth=5):
+    def to_dict(self, depth=1, include=None):
+
+        if not include: include = list()
 
         if depth:
 
@@ -46,7 +48,7 @@ class AppModel(db.Model):
 
             columns = [item for item in self.__table__.columns.keys() if item not in exclude]
 
-            relationships = [item for item in self.__mapper__.relationships.keys()]
+            relationships = [item for item in self.__mapper__.relationships.keys() if item in include]
 
             dictionary = {column: getattr(self, column) for column in columns}
 

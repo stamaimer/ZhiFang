@@ -21,7 +21,6 @@ from app.models.project import Project
 from app.models.audit import Audit
 from app.models.loan import Loan
 from app.models.user import User
-from app.models import db
 
 from app.utilities import push
 
@@ -36,19 +35,19 @@ def create_loan():
 
         request_json = request.get_json(force=1)
 
-        project_id = request_json["project_id"]
+        project_id = request_json.get("project_id")
 
-        attachment = request_json["attachment"]
+        attachment = request_json.get("attachment")
 
-        notation = request_json["notation"]
+        notation = request_json.get("notation")
 
-        amount = request_json["amount"]
+        amount = request_json.get("amount")
 
         audit = Audit(create_user=current_user, type=u"借款")
 
         audit.save()
 
-        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)
+        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)  #
 
         rd3_audit_view.save()
 
@@ -73,9 +72,9 @@ def create_loan():
         loan.save()
 
         push(u"你有一条来自{}的{}申请".format(current_user.username, audit.type),
-             st1_audit_view.audit_user.registration_id)
+             st1_audit_view.audit_user.registration_id)  #
 
-        data_dict = dict(loan=loan.to_dict())
+        data_dict = dict(loan_id=loan.id)
 
         return jsonify(data_dict)
 

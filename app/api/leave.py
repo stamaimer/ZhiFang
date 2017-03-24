@@ -34,29 +34,28 @@ def create_leave():
 
         request_json = request.get_json(force=1)
 
-        leave_type_id = request_json["leave_type_id"]
+        leave_type_id = request_json.get("leave_type_id")
 
-        beg_date = request_json["beg_date"]
+        beg_date = request_json.get("beg_date")
 
-        end_date = request_json["end_date"]
+        end_date = request_json.get("end_date")
 
-        notation = request_json["notation"]
+        notation = request_json.get("notation")
 
-        last = request_json["last"]
+        last = request_json.get("last")
 
         audit = Audit(create_user=current_user, type=u"请假")
 
         audit.save()
 
-        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)
+        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)  #
 
         rd3_audit_view.save()
 
-        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit=audit, status=1)
+        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit=audit,
+                                   next_id=rd3_audit_view.id, status=1)
 
         nd2_audit_view.save()
-
-        nd2_audit_view._next_ = rd3_audit_view
 
         audit.current = nd2_audit_view
 
@@ -71,9 +70,9 @@ def create_leave():
         leave.save()
 
         push(u"你有一条来自{}的{}申请".format(current_user.username, audit.type),
-             nd2_audit_view.audit_user.registration_id)
+             nd2_audit_view.audit_user.registration_id)  #
 
-        data_dict = dict(leave=leave.to_dict())
+        data_dict = dict(leave_id=leave.id)
 
         return jsonify(data_dict)
 
@@ -82,13 +81,3 @@ def create_leave():
         current_app.logger.error(traceback.format_exc())
 
         abort(500)
-
-
-
-
-
-
-
-
-
-

@@ -22,7 +22,6 @@ from app.models.audit_view import AuditView
 from app.models.project import Project
 from app.models.audit import Audit
 from app.models.user import User
-from app.models import db
 
 from app.utilities import push
 
@@ -37,21 +36,21 @@ def create_reimbursement():
 
         request_json = request.get_json(force=1)
 
-        reimbursement_type_id = request_json["reimbursement_type_id"]
+        reimbursement_type_id = request_json.get("reimbursement_type_id")
 
-        project_id = request_json["project_id"]
+        project_id = request_json.get("project_id")
 
-        attachment = request_json["attachment"]
+        attachment = request_json.get("attachment")
 
-        notation = request_json["notation"]
+        notation = request_json.get("notation")
 
-        amount = request_json["amount"]
+        amount = request_json.get("amount")
 
         audit = Audit(create_user=current_user, type=u"报销")
 
         audit.save()
 
-        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)
+        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)  #
 
         rd3_audit_view.save()
 
@@ -77,9 +76,9 @@ def create_reimbursement():
         reimbursement.save()
 
         push(u"你有一条来自{}的{}申请".format(current_user.username, audit.type),
-             st1_audit_view.audit_user.registration_id)
+             st1_audit_view.audit_user.registration_id)  #
 
-        data_dict = dict(reimbursement=reimbursement.to_dict())
+        data_dict = dict(reimbursement_id=reimbursement.id)
 
         return jsonify(data_dict)
 
@@ -88,6 +87,3 @@ def create_reimbursement():
         current_app.logger.error(traceback.format_exc())
 
         abort(500)
-
-
-

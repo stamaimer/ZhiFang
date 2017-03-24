@@ -34,9 +34,21 @@ def select_attendance():
 
         data_dict = dict()
 
-        data_dict["clocks"] = [clock.to_dict(3) for clock in clocks]
+        data_dict["clocks"] = [dict(id=clock.id,
+                                    notation=clock.notation,
+                                    position=clock.position,
+                                    datetime=clock.datetime,
+                                    project=dict(id=clock.project.id, name=clock.project.name)) for clock in clocks]
 
-        data_dict["leaves"] = [leave.to_dict(3) for leave in leaves]
+        data_dict["leaves"] = [dict(id=leave.id,
+                                    last=leave.last,
+                                    beg_date=leave.beg_date,
+                                    end_date=leave.end_date,
+                                    notation=leave.notation,
+                                    leave_type=dict(id=leave.leave_type.id, text=leave.leave_type.text),
+                                    audit=dict(id=leave.audit.id,
+                                               status=leave.audit.status,
+                                               create_datetime=leave.audit.create_datetime)) for leave in leaves]
 
         return jsonify(data_dict)
 
