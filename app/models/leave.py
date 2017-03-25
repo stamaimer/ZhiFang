@@ -18,7 +18,7 @@ class Leave(AuditItem):
 
     __mapper_args__ = {"polymorphic_identity": u"请假"}
 
-    id = db.Column(db.Integer(), db.ForeignKey("audit_item.id"), primary_key=True)
+    id = db.Column(db.Integer(), db.ForeignKey("audit_item.id"), primary_key=1)
 
     leave_type_id = db.Column(db.Integer(), db.ForeignKey("leave_type.id"))
 
@@ -32,7 +32,7 @@ class Leave(AuditItem):
 
     last = db.Column(db.Integer())
 
-    def __init__(self, create_user_id, audit_id, leave_type_id, beg_date, end_date, notation, last):
+    def __init__(self, create_user_id, leave_type_id, beg_date, end_date, notation, last):
 
         self.create_user_id = create_user_id
 
@@ -43,7 +43,5 @@ class Leave(AuditItem):
         self.end_date = end_date
 
         self.notation = notation
-
-        self.audit_id = audit_id
 
         self.last = last

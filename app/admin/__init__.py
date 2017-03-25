@@ -316,6 +316,8 @@ class ProjectModelView(AppModelView):
 
     can_view_details = True
 
+    column_default_sort = ("create_datetime", 1)
+
     column_exclude_list = ["update_datetime"]
 
     form_excluded_columns = ["update_datetime"]

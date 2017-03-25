@@ -34,7 +34,7 @@ def select_attachment(audit_item_id):
 
         else:
 
-            return '', 404
+            return '', 404  #
 
     except:
 

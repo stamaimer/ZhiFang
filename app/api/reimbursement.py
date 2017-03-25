@@ -20,10 +20,8 @@ from flask_security import auth_token_required, current_user
 from app.models.reimbursement import Reimbursement
 from app.models.audit_view import AuditView
 from app.models.project import Project
-from app.models.audit import Audit
 from app.models.user import User
-
-from app.utilities import push
+from app.models import db
 
 from . import api
 
@@ -46,37 +44,32 @@ def create_reimbursement():
 
         amount = request_json.get("amount")
 
-        audit = Audit(create_user=current_user, type=u"报销")
-
-        audit.save()
-
-        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)  #
-
-        rd3_audit_view.save()
-
-        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit=audit, next_id=rd3_audit_view.id)
-
-        nd2_audit_view.save()
-
-        st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit=audit,
-                                   next_id=nd2_audit_view.id, status=1)
-
-        st1_audit_view.save()
-
-        audit.current = st1_audit_view
-
         reimbursement = Reimbursement(reimbursement_type_id=reimbursement_type_id,
                                       create_user_id=current_user.id,
                                       project_id=project_id,
                                       attachment=attachment,
-                                      audit_id=audit.id,
                                       notation=notation,
                                       amount=amount)
 
         reimbursement.save()
 
-        push(u"你有一条来自{}的{}申请".format(current_user.username, audit.type),
-             st1_audit_view.audit_user.registration_id)  #
+        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三"), audit_item=reimbursement)
+
+        rd3_audit_view.save()
+
+        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=reimbursement,
+                                   next_id=rd3_audit_view.id)
+
+        nd2_audit_view.save()
+
+        st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit_item=reimbursement,
+                                   next_id=nd2_audit_view.id, status=1)
+
+        st1_audit_view.save()
+
+        reimbursement.current_audit_view = st1_audit_view
+
+        db.session.commit()
 
         data_dict = dict(reimbursement_id=reimbursement.id)
 

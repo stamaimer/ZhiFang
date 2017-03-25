@@ -17,11 +17,9 @@ from flask import abort, current_app, jsonify, request
 from flask_security import auth_token_required, current_user
 
 from app.models.audit_view import AuditView
-from app.models.audit import Audit
 from app.models.leave import Leave
 from app.models.user import User
-
-from app.utilities import push
+from app.models import db
 
 from . import api
 
@@ -44,24 +42,8 @@ def create_leave():
 
         last = request_json.get("last")
 
-        audit = Audit(create_user=current_user, type=u"请假")
-
-        audit.save()
-
-        rd3_audit_view = AuditView(audit_user=User.query.get(1), audit=audit)  #
-
-        rd3_audit_view.save()
-
-        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit=audit,
-                                   next_id=rd3_audit_view.id, status=1)
-
-        nd2_audit_view.save()
-
-        audit.current = nd2_audit_view
-
         leave = Leave(create_user_id=current_user.id,
                       leave_type_id=leave_type_id,
-                      audit_id=audit.id,
                       beg_date=beg_date,
                       end_date=end_date,
                       notation=notation,
@@ -69,8 +51,18 @@ def create_leave():
 
         leave.save()
 
-        push(u"你有一条来自{}的{}申请".format(current_user.username, audit.type),
-             nd2_audit_view.audit_user.registration_id)  #
+        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三"), audit_item=leave)
+
+        rd3_audit_view.save()
+
+        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=leave,
+                                   next_id=rd3_audit_view.id, status=1)
+
+        nd2_audit_view.save()
+
+        leave.current_audit_view = nd2_audit_view
+
+        db.session.commit()
 
         data_dict = dict(leave_id=leave.id)
 

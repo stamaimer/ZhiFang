@@ -25,6 +25,8 @@ class Bulletin(AppModel):
 
     image = db.Column(db.String(999))
 
+    status = db.Column(db.Boolean(), default=1)
+
     authorized_users = db.relationship("User", secondary=bulletins_users)
 
 
@@ -32,3 +34,9 @@ class Bulletin(AppModel):
 def push_after_insert(mapper, connection, target):
 
     push(u"你有一条新的通知公告：%s" % target.title, *[user.registration_id for user in target.authorized_users])
+
+
+@listens_for(Bulletin.status, "set")
+def push_after_status_set(target, value, oldvalue, initiator):
+    if not oldvalue and value:
+        push(u"你有一条新的通知公告：%s" % target.title, *[user.registration_id for user in target.authorized_users])

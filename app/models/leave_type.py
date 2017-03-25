@@ -15,7 +15,9 @@ from . import db, AppModel
 
 class LeaveType(AppModel):
 
-    text = db.Column(db.String(9), unique=1)
+    text = db.Column(db.String(9), unique=1, nullable=0)
+
+    status = db.Column(db.Boolean(), default=1)
 
     def __init__(self, text=""):
 

@@ -17,7 +17,9 @@ class Region(AppModel):
 
     text = db.Column(db.String(128), unique=1, nullable=0)
 
-    charge_user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
+    status = db.Column(db.Boolean(), default=1)
+
+    charge_user_id = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=0)
 
     charge_user = db.relationship("User", foreign_keys=charge_user_id)
 

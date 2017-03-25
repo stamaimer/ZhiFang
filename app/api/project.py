@@ -27,11 +27,9 @@ def select_project():
 
     try:
 
-        projects = Project.query.order_by(Project.create_datetime.desc()).all()
+        projects = Project.query.filter_by(status=1).order_by(Project.create_datetime.desc()).all()
 
-        data_dict = dict()
-
-        data_dict["projects"] = [dict(id=project.id, name=project.name) for project in projects]
+        data_dict = dict(projects=[dict(id=project.id, name=project.name) for project in projects])
 
         return jsonify(data_dict)
 

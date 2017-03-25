@@ -16,10 +16,9 @@ from .audit_view import AuditView
 
 class Audit(AppModel):
 
-    audit_items = db.relationship("AuditItem", backref="audit")
+    audit_item = db.relationship("AuditItem", uselist=0)
 
-    audit_views = db.relationship("AuditView", foreign_keys=AuditView.audit_id, backref="audit", post_update=1,
-                                  order_by="AuditView.update_datetime")
+    # audit_views = db.relationship("AuditView", foreign_keys=AuditView.audit_id, backref="audit", post_update=1, order_by="AuditView.update_datetime")
 
     current_id = db.Column(db.Integer(), db.ForeignKey("audit_view.id"))
 

@@ -27,7 +27,7 @@ from app.utilities import push
 from . import api
 
 
-@api.route("/audit_view")
+# @api.route("/audit_view")
 @auth_token_required
 def select_audit_view():
 
@@ -78,55 +78,31 @@ def update_audit_view():
 
                     audit_view._next_.status = 1
 
-                    audit_view.audit.current = audit_view._next_
-
-                    push(u"你有一条来自{}的{}申请".format(audit_view.audit.create_user.username, audit_view.audit.type),
-                         audit_view._next_.audit_user.registration_id)  #
+                    audit_view.audit_item.current_audit_view = audit_view._next_
 
                 else:
 
                     audit_view.audit.status = u"已通过"
 
-                    # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
-                    #      audit_view.audit.create_user.registration_id)
-
             if result == u"驳回":
 
-                audit_view.audit.status = u"已驳回"
-
-                # audit_views = audit_view.audit.audit_views
-                #
-                # for item in audit_views:
-                #
-                #     if item.status == 0:
-                #
-                #         db.session.delete(item)
-                #
-                #         db.session.commit()
-
-                # push(u"你的{}申请{}".format(audit_view.audit.type, audit_view.audit.status),
-                #      audit_view.audit.create_user.registration_id)
+                audit_view.audit_item.status = u"已驳回"
 
             if result == u"转审":
 
                 retrial_user_id = request_json.get("retrail_user_id")
 
-                retrial_audit_view = AuditView(audit_user=User.query.get(retrial_user_id), audit=audit_view.audit,
+                retrial_audit_view = AuditView(audit_user=User.query.get(retrial_user_id),
+                                               audit_item=audit_view.audit_item,
                                                status=1)
 
                 retrial_audit_view.save()
 
-                audit_view.audit.current = retrial_audit_view
+                audit_view.audit_item.current_audit_view = retrial_audit_view
 
                 retrial_audit_view._next_ = audit_view._next_
 
                 audit_view._next_ = retrial_audit_view
-
-                push(u"你有一条来自{}的{}申请".format(audit_view.audit.create_user.username, audit_view.audit.type),
-                     retrial_audit_view.audit_user.registration_id)  #
-
-            push(u"{}已经{}你的{}申请".format(audit_view.audit_user.username, result, audit_view.audit.type),
-                 audit_view.audit.create_user.registration_id)
 
             db.session.commit()
 

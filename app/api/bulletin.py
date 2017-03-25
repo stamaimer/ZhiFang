@@ -28,21 +28,17 @@ def select_bulletin():
 
     try:
 
-        limit = request.args.get("limit")
+        page = request.args.get("page", default=1, type=int)
 
-        query = Bulletin.query.filter(Bulletin.authorized_users.any(id=current_user.id))
+        page_size = request.args.get("page_size", default=5, type=int)
 
-        if limit:
+        bulletins = Bulletin.query\
+            .filter(Bulletin.status == 1, Bulletin.authorized_users.any(id=current_user.id))\
+            .order_by(Bulletin.create_datetime.desc())\
+            .paginate(page, page_size)
 
-            bulletins = query.order_by(Bulletin.create_datetime.desc()).limit(int(limit)).all()
-
-        else:
-
-            bulletins = query.order_by(Bulletin.create_datetime.desc()).all()
-
-        data_dict = dict(bulletins=[dict(id=bulletin.id, title=bulletin.title, content=bulletin.content,
-                                         image=ast.literal_eval(bulletin.image))
-                                    for bulletin in bulletins])
+        data_dict = dict(bulletins=[dict(id=bulletin.id, title=bulletin.title, image=ast.literal_eval(bulletin.image),
+                                         content=bulletin.content) for bulletin in bulletins])
 
         return jsonify(data_dict)
 

@@ -17,29 +17,29 @@ from . import db, roles_users, specialties_users, AppModel
 
 class User(AppModel, UserMixin):
 
-    employee_no = db.Column(db.Integer(), unique=True)  # 工号
+    employee_no = db.Column(db.Integer(), unique=1)  # 工号
 
-    id_no = db.Column(db.String(128), unique=True)  # 身份证号
+    id_no = db.Column(db.String(128), unique=1)  # 身份证号
 
-    email = db.Column(db.String(128), unique=True)  # 邮箱 不填
+    email = db.Column(db.String(128), unique=1)  # 邮箱 不填
 
-    phone = db.Column(db.String(128), unique=True, nullable=False)  # 手机
+    phone = db.Column(db.String(128), unique=1, nullable=0)  # 手机
 
     image = db.Column(db.String(128))  # 签名
 
-    active = db.Column(db.Boolean(), default=True)  # 状态 默认有效
+    active = db.Column(db.Boolean(), default=1)  # 状态 默认有效
 
     gender = db.Column(db.Enum(u"男", u"女"))  # 性别
 
-    username = db.Column(db.String(128), nullable=False)  # 姓名
+    username = db.Column(db.String(128), nullable=0)  # 姓名
 
-    password = db.Column(db.String(128), nullable=False)  # 密码
+    password = db.Column(db.String(128), nullable=0)  # 密码
 
     notation = db.Column(db.Text())  # 备注
 
     registration_id = db.Column(db.String(64))
 
-    region_id = db.Column(db.Integer(), db.ForeignKey("region.id"))
+    region_id = db.Column(db.Integer(), db.ForeignKey("region.id"), nullable=0)
 
     region = db.relationship("Region", foreign_keys=region_id)
 

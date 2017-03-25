@@ -9,6 +9,10 @@
 """
 
 
+from sqlalchemy.event import listens_for
+
+from app.utilities import push
+
 from . import db, AppModel
 
 
@@ -31,7 +35,9 @@ class AuditView(AppModel):
 
     audit_user = db.relationship("User", foreign_keys=audit_user_id)
 
-    audit_id = db.Column(db.Integer(), db.ForeignKey("audit.id"))
+    audit_item_id = db.Column(db.Integer(), db.ForeignKey("audit_item.id"))
+
+    audit_item = db.relationship("AuditItem", foreigh_keys=audit_item_id)
 
     def __repr__(self):
 
@@ -49,3 +55,24 @@ class AuditView(AppModel):
         else:
 
             return u"等待 " + self.audit_user.username + u" 审批"
+
+
+@listens_for(AuditView, "after_insert")
+def push_after_insert(mapper, connection, target):
+    if target.status:
+        push(u"你有一条来自{}的{}申请".format(target.audit_item.create_user.username, target.audit_item.type),
+             target.audit_user.registration_id)
+
+
+@listens_for(AuditView.status, "set")
+def push_after_status_set(target, value, oldvalue, initiator):
+    if not oldvalue and value:
+        push(u"你有一条来自{}的{}申请".format(target.audit_item.create_user.username, target.audit_item.type),
+             target.audit_user.registration_id)
+
+
+@listens_for(AuditView.result, "set")
+def push_after_result_set(target, value, oldvalue, initiator):
+    if target.result:
+        push(u"{}已经{}你的{}申请".format(target.audit_user.username, target.result, target.audit_item.type),
+             target.audit_item.create_user.registration_id)

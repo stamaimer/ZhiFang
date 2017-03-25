@@ -44,13 +44,13 @@ def update_user():
         abort(500)
 
 
-@api.route("/contact")
+@api.route("/user")
 @auth_token_required
-def select_contact():
+def select_user():
 
     try:
 
-        users = User.query.all()
+        users = User.query.filter_by(active=1).all()
 
         data_dict = dict(users=[dict(id=user.id, username=user.username, phone=user.phone) for user in users])
 

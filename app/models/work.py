@@ -18,7 +18,7 @@ class Work(AuditItem):
 
     __mapper_args__ = {"polymorphic_identity": u"工时"}
 
-    id = db.Column(db.Integer(), db.ForeignKey("audit_item.id"), primary_key=True)
+    id = db.Column(db.Integer(), db.ForeignKey("audit_item.id"), primary_key=1)
 
     project_id = db.Column(db.Integer(), db.ForeignKey("project.id"))
 
@@ -42,8 +42,7 @@ class Work(AuditItem):
 
     notation = db.Column(db.Text())
 
-    def __init__(self, create_user_id, audit_id,
-                 project_id, project_stage_id, specialty_id, work_type_id, notation, date, hour):
+    def __init__(self, create_user_id, project_id, project_stage_id, specialty_id, work_type_id, notation, date, hour):
 
         self.project_stage_id = project_stage_id
 
@@ -54,8 +53,6 @@ class Work(AuditItem):
         self.work_type_id = work_type_id
 
         self.project_id = project_id
-
-        self.audit_id = audit_id
 
         self.notation = notation
 

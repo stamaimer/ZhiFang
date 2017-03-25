@@ -28,9 +28,15 @@ def select_attendance():
 
     try:
 
-        clocks = Clock.query.filter_by(user=current_user).all()
+        page = request.args.get("page", default=1, type=int)
 
-        leaves = Leave.query.filter_by(create_user=current_user).all()
+        page_size = request.args.get("page_size", default=5, type=int)
+
+        clocks = Clock.query.filter_by(create_user=current_user)\
+            .order_by(Clock.create_datetime.desc()).paginate(page, page_size)
+
+        leaves = Leave.query.filter_by(create_user=current_user)\
+            .order_by(Leave.create_datetime.desc()).paginate(page, page_size)
 
         data_dict = dict()
 
@@ -42,13 +48,13 @@ def select_attendance():
 
         data_dict["leaves"] = [dict(id=leave.id,
                                     last=leave.last,
+                                    status=leave.status,
                                     beg_date=leave.beg_date,
                                     end_date=leave.end_date,
                                     notation=leave.notation,
-                                    leave_type=dict(id=leave.leave_type.id, text=leave.leave_type.text),
-                                    audit=dict(id=leave.audit.id,
-                                               status=leave.audit.status,
-                                               create_datetime=leave.audit.create_datetime)) for leave in leaves]
+                                    create_datetime=leave.create_datetime,
+                                    leave_type=dict(id=leave.leave_type.id, text=leave.leave_type.text))
+                               for leave in leaves]
 
         return jsonify(data_dict)
 

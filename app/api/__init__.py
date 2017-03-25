@@ -138,9 +138,9 @@ def init_db():
 
         user.save()
 
-        project = Project(name=u"测试项目", charge_user=user)
-
-        project.save()
+        # project = Project(no="XMBH", name=u"测试项目", charge_user=user)
+        #
+        # project.save()
 
         for text in [u"广西", u"贵阳", u"西南"]:
 
@@ -176,25 +176,25 @@ def before_app_request():
 
     g.start = time.clock()
 
-    current_app.logger.debug("request path: " + request.url)
-
-    current_app.logger.debug("request head: " + request.headers.__str__())
-
-    current_app.logger.debug("request args: " + request.args.__str__())
-
-    current_app.logger.debug("request form: " + request.form.__str__())
-
-    current_app.logger.debug("request data: " + request.data.__str__())
+    # current_app.logger.debug("request path: " + request.url)
+    #
+    # current_app.logger.debug("request head: " + request.headers.__str__())
+    #
+    # current_app.logger.debug("request args: " + request.args.__str__())
+    #
+    # current_app.logger.debug("request form: " + request.form.__str__())
+    #
+    # current_app.logger.debug("request data: " + request.data.__str__())
 
 
 @api.after_app_request
 def after_app_request(response):
 
-    for query in get_debug_queries():
-
-        if query.duration * 1000 > 1:
-
-            current_app.logger.debug(query)
+    # for query in get_debug_queries():
+    #
+    #     if query.duration * 1000 > 1:
+    #
+    #         current_app.logger.debug(query)
 
     current_app.logger.debug(time.clock() - g.start)
 
@@ -202,26 +202,36 @@ def after_app_request(response):
 
 
 @api.route("/coor2addr")
+@auth_token_required
 def coor2addr():
 
-    lat = request.args.get("lat")
+    try:
 
-    lon = request.args.get("lon")
+        lat = request.args.get("lat")
 
-    address = docoor2addr(lat, lon)
+        lon = request.args.get("lon")
 
-    if address:
+        address = docoor2addr(lat, lon)
 
-        return jsonify(dict(address=address))
+        if address:
 
-    else:
+            return jsonify(dict(address=address))
 
-        abort(404)
+        else:
+
+            return '', 404
+
+    except:
+
+        current_app.logger.error(traceback.format_exc())
+
+        abort(500)
 
 
 from .reimbursement import *
 from .attachment import *
 from .attendance import *
+from .audit_item import *
 from .audit_view import *
 from .utilities import *
 from .bulletin import *

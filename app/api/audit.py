@@ -29,7 +29,9 @@ def select_audit():
 
         type = request.args.getlist("type")
 
-        limit = request.args.get("limit")
+        page = request.args.get("page", default=1, type=int)
+
+        page_size = request.args.get("page_size", default=5, type=int)
 
         if type:
 
@@ -56,7 +58,7 @@ def select_audit():
                                     create_datetime=audit.create_datetime,
                                     update_datetime=audit.update_datetime,
                                     create_user=dict(id=audit.create_user.id, username=audit.create_user.username),
-                                    audit_item=audit.audit_items[0].to_dict(2, include=["leave_type", "project", "project_stage", "specialty", "work_type", "reimbursement_type"]),
+                                    audit_item=audit.audit_items[0].to_dict(2, include=["create_user", "leave_type", "project", "project_stage", "reimbursement_type", "specialty", "work_type"]),
                                     current=dict(id=audit.current.id,
                                                  advice=audit.current.advice,
                                                  status=audit.current.status,
@@ -74,7 +76,9 @@ def select_audit():
                                                                      status=audit.current.last.last.status,
                                                                      result=audit.current.last.last.result,
                                                                      audit_user=dict(id=audit.current.last.last.audit_user.id,
-                                                                                     username=audit.current.last.last.audit_user.username)) if audit.current.last.last else None) if audit.current.last else None))
+                                                                                     username=audit.current.last.last.audit_user.username))
+                                                           if audit.current.last.last else None)
+                                                 if audit.current.last else None))
                                for audit in audits]
 
         return jsonify(data_dict)
