@@ -33,28 +33,32 @@ def select_attendance():
         page_size = request.args.get("page_size", default=5, type=int)
 
         clocks = Clock.query.filter_by(create_user=current_user)\
-            .order_by(Clock.create_datetime.desc()).paginate(page, page_size)
+            .order_by(Clock.create_datetime.desc()).paginate(page, page_size).items
 
         leaves = Leave.query.filter_by(create_user=current_user)\
-            .order_by(Leave.create_datetime.desc()).paginate(page, page_size)
+            .order_by(Leave.create_datetime.desc()).paginate(page, page_size).items
 
         data_dict = dict()
 
-        data_dict["clocks"] = [dict(id=clock.id,
-                                    notation=clock.notation,
-                                    position=clock.position,
-                                    datetime=clock.datetime,
-                                    project=dict(id=clock.project.id, name=clock.project.name)) for clock in clocks]
+        # data_dict["clocks"] = [dict(id=clock.id,
+        #                             notation=clock.notation,
+        #                             position=clock.position,
+        #                             datetime=clock.datetime,
+        #                             project=dict(id=clock.project.id, name=clock.project.name)) for clock in clocks]
+        #
+        # data_dict["leaves"] = [dict(id=leave.id,
+        #                             last=leave.last,
+        #                             status=leave.status,
+        #                             beg_date=leave.beg_date,
+        #                             end_date=leave.end_date,
+        #                             notation=leave.notation,
+        #                             create_datetime=leave.create_datetime,
+        #                             leave_type=dict(id=leave.leave_type.id, text=leave.leave_type.text))
+        #                        for leave in leaves]
 
-        data_dict["leaves"] = [dict(id=leave.id,
-                                    last=leave.last,
-                                    status=leave.status,
-                                    beg_date=leave.beg_date,
-                                    end_date=leave.end_date,
-                                    notation=leave.notation,
-                                    create_datetime=leave.create_datetime,
-                                    leave_type=dict(id=leave.leave_type.id, text=leave.leave_type.text))
-                               for leave in leaves]
+        data_dict["clocks"] = [clock.to_dict(2, include=["project"]) for clock in clocks]
+
+        data_dict["leaves"] = [leave.to_dict(2, include=["leave_type"]) for leave in leaves]
 
         return jsonify(data_dict)
 

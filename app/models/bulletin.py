@@ -19,9 +19,9 @@ from . import db, bulletins_users, AppModel
 
 class Bulletin(AppModel):
 
-    content = db.Column(db.Text())
+    content = db.Column(db.Text(), nullable=0)
 
-    title = db.Column(db.String(255))
+    title = db.Column(db.String(255), nullable=0)
 
     image = db.Column(db.String(999))
 

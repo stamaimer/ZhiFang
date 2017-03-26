@@ -37,7 +37,7 @@ class AuditView(AppModel):
 
     audit_item_id = db.Column(db.Integer(), db.ForeignKey("audit_item.id"))
 
-    audit_item = db.relationship("AuditItem", foreigh_keys=audit_item_id)
+    audit_item = db.relationship("AuditItem", foreign_keys=audit_item_id)
 
     def __repr__(self):
 

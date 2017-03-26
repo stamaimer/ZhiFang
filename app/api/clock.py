@@ -17,8 +17,34 @@ from flask import abort, current_app, jsonify, request
 from flask_security import auth_token_required, current_user
 
 from app.models.clock import Clock
+from app.models import db
 
 from . import api
+
+
+@api.route("/clock")
+def select_clock():
+
+    try:
+
+        page = request.args.get("page", default=1, type=int)
+
+        page_size = request.args.get("page_size", default=5, type=int)
+
+        clocks = Clock.query.filter_by(create_user=current_user)\
+            .order_by(Clock.create_datetime.desc()).paginate(page, page_size).items
+
+        data_dict = dict()
+
+        data_dict["clocks"] = [clock.to_dict(2, include=["project"]) for clock in clocks]
+
+        return jsonify(data_dict)
+
+    except:
+
+        current_app.logger.error(traceback.format_exc())
+
+        abort(500)
 
 
 @api.route("/clock", methods=["POST"])
@@ -44,6 +70,8 @@ def create_clock():
         return jsonify(data_dict)
 
     except:
+
+        db.session.rollback()
 
         current_app.logger.error(traceback.format_exc())
 

@@ -35,10 +35,9 @@ def select_bulletin():
         bulletins = Bulletin.query\
             .filter(Bulletin.status == 1, Bulletin.authorized_users.any(id=current_user.id))\
             .order_by(Bulletin.create_datetime.desc())\
-            .paginate(page, page_size)
+            .paginate(page, page_size).items
 
-        data_dict = dict(bulletins=[dict(id=bulletin.id, title=bulletin.title, image=ast.literal_eval(bulletin.image),
-                                         content=bulletin.content) for bulletin in bulletins])
+        data_dict = dict(bulletins=[bulletin.to_dict() for bulletin in bulletins])
 
         return jsonify(data_dict)
 

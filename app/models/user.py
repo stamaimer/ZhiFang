@@ -39,7 +39,7 @@ class User(AppModel, UserMixin):
 
     registration_id = db.Column(db.String(64))
 
-    region_id = db.Column(db.Integer(), db.ForeignKey("region.id"), nullable=0)
+    region_id = db.Column(db.Integer(), db.ForeignKey("region.id"))
 
     region = db.relationship("Region", foreign_keys=region_id)
 

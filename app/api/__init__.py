@@ -230,13 +230,13 @@ def coor2addr():
 
 from .reimbursement import *
 from .attachment import *
-from .attendance import *
+# from .attendance import *
 from .audit_item import *
 from .audit_view import *
 from .utilities import *
 from .bulletin import *
 from .project import *
-from .audit import *
+# from .audit import *
 from .clock import *
 from .leave import *
 from .work import *

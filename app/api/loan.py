@@ -49,7 +49,7 @@ def create_loan():
 
         loan.save()
 
-        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三"), audit_item=loan)
+        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=loan)
 
         rd3_audit_view.save()
 
@@ -72,6 +72,8 @@ def create_loan():
         return jsonify(data_dict)
 
     except:
+
+        db.session.rollback()
 
         current_app.logger.error(traceback.format_exc())
 

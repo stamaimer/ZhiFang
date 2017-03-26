@@ -44,9 +44,14 @@ class AppModel(db.Model):
 
             depth -= 1
 
-            exclude = ["active", "email", "password", "registration_id"]
+            exclude = ["active", "email", "employee_no", "gender", "id_no", "image", "notation", "password",
+                       "region_id", "registration_id"] + ["charge_user_id", "current_stage_id", "no"]
 
-            columns = [item for item in self.__table__.columns.keys() if item not in exclude]
+            attrs = self.__mapper__.attrs.keys()
+
+            relationships = self.__mapper__.relationships.keys()
+
+            columns = [item for item in [cols for cols in attrs if cols not in relationships] if item not in exclude]
 
             relationships = [item for item in self.__mapper__.relationships.keys() if item in include]
 
@@ -62,11 +67,11 @@ class AppModel(db.Model):
 
                     if is_list:
 
-                        dictionary[relationship] = [record.to_dict(depth) for record in related]
+                        dictionary[relationship] = [record.to_dict(depth, include) for record in related]
 
                     else:
 
-                        dictionary[relationship] = related.to_dict(depth)
+                        dictionary[relationship] = related.to_dict(depth, include)
 
             return dictionary
 
@@ -88,7 +93,7 @@ from .role import Role
 from .user import User
 from .loan import Loan
 from .work import Work
-from .audit import Audit
+# from .audit import Audit
 from .clock import Clock
 from .leave import Leave
 from .region import Region

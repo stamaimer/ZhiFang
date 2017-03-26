@@ -24,6 +24,31 @@ from app.models import db
 from . import api
 
 
+@api.route("/leave")
+def select_leave():
+
+    try:
+
+        page = request.args.get("page", default=1, type=int)
+
+        page_size = request.args.get("page_size", default=5, type=int)
+
+        leaves = Leave.query.filter_by(create_user=current_user)\
+            .order_by(Leave.create_datetime.desc()).paginate(page, page_size).items
+
+        data_dict = dict()
+
+        data_dict["leaves"] = [leave.to_dict(2, include=["leave_type"]) for leave in leaves]
+
+        return jsonify(data_dict)
+
+    except:
+
+        current_app.logger.error(traceback.format_exc())
+
+        abort(500)
+
+
 @api.route("/leave", methods=["POST"])
 @auth_token_required
 def create_leave():
@@ -51,7 +76,7 @@ def create_leave():
 
         leave.save()
 
-        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三"), audit_item=leave)
+        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=leave)
 
         rd3_audit_view.save()
 
@@ -69,6 +94,8 @@ def create_leave():
         return jsonify(data_dict)
 
     except:
+
+        db.session.rollback()
 
         current_app.logger.error(traceback.format_exc())
 

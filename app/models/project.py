@@ -23,7 +23,7 @@ class Project(AppModel):
 
     region_id = db.Column(db.Integer(), db.ForeignKey("region.id"), nullable=0)
 
-    region = db.relationship("Region", foreign_keys=region_id, backref="projects")
+    region = db.relationship("Region", foreign_keys=region_id)
 
     charge_user_id = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=0)
 

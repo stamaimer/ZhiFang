@@ -72,6 +72,8 @@ def create_work():
 
     except:
 
+        db.session.rollback()
+
         current_app.logger.error(traceback.format_exc())
 
         abort(500)

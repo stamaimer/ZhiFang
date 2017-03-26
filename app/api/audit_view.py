@@ -110,9 +110,11 @@ def update_audit_view():
 
         else:
 
-            abort(401)
+            return '', 401
 
     except:
+
+        db.session.rollback()
 
         current_app.logger.error(traceback.format_exc())
 

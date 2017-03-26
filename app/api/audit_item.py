@@ -28,7 +28,7 @@ def to_dict(item):
                                          "specialty", "work_type",
                                          "project"])
 
-    item_dict["current_audit_view"] = item.current_audit_view.to_dict(3, include=["last", "audit_user"])
+    item_dict["current_audit_view"] = item.current_audit_view.to_dict(4, include=["last", "audit_user"])
 
     return item_dict
 
@@ -40,6 +40,8 @@ def select_audit_item():
     try:
 
         used = request.args.get("used")
+
+        if not used: return '', 400
 
         type = request.args.getlist("type")
 
@@ -59,7 +61,7 @@ def select_audit_item():
 
             audit_items = AuditItem.query.filter(AuditItem.current_audit_view.audit_user == current_user)
 
-        audit_items = audit_items.order_by(AuditItem.create_datetime.desc()).paginate(page, page_size)
+        audit_items = audit_items.order_by(AuditItem.create_datetime.desc()).paginate(page, page_size).items
 
         data_dict = dict()
 
