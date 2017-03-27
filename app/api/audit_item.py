@@ -17,6 +17,7 @@ from flask import abort, current_app, jsonify, request
 from flask_security import auth_token_required, current_user
 
 from app.models.audit_item import AuditItem
+from app.models.audit_view import AuditView
 
 from . import api
 
@@ -65,8 +66,7 @@ def select_audit_item():
 
         if used == "update":
 
-            audit_items = AuditItem.query.filter(AuditItem.current_audit_view.audit_user == current_user,
-                                                 AuditItem.status == u"审批中")
+            audit_items = AuditItem.query.filter(AuditView.audit_user == current_user, AuditItem.status == u"审批中")
 
         audit_items = audit_items.order_by(AuditItem.create_datetime.desc()).paginate(page, page_size).items
 

@@ -59,7 +59,7 @@ def init_db():
 
         db.session.rollback()
 
-        current_app.logger.error(traceback.format_exc())
+        # current_app.logger.error(traceback.format_exc())
 
     try:
 
@@ -73,7 +73,7 @@ def init_db():
 
         db.session.rollback()
 
-        current_app.logger.error(traceback.format_exc())
+        # current_app.logger.error(traceback.format_exc())
 
     try:
 
@@ -87,7 +87,7 @@ def init_db():
 
         db.session.rollback()
 
-        current_app.logger.error(traceback.format_exc())
+        # current_app.logger.error(traceback.format_exc())
 
     try:
 
@@ -101,7 +101,7 @@ def init_db():
 
         db.session.rollback()
 
-        current_app.logger.error(traceback.format_exc())
+        # current_app.logger.error(traceback.format_exc())
 
     try:
 
@@ -116,7 +116,7 @@ def init_db():
 
         db.session.rollback()
 
-        current_app.logger.error(traceback.format_exc())
+        # current_app.logger.error(traceback.format_exc())
 
     try:
 
@@ -128,7 +128,7 @@ def init_db():
 
         db.session.rollback()
 
-        current_app.logger.error(traceback.format_exc())
+        # current_app.logger.error(traceback.format_exc())
 
     try:
 
@@ -166,7 +166,7 @@ def init_db():
 
         db.session.rollback()
 
-        current_app.logger.error(traceback.format_exc())
+        # current_app.logger.error(traceback.format_exc())
 
 
 # @api.before_app_request
