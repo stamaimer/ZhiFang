@@ -125,7 +125,20 @@ class ReimbursementTypeModelView(AppModelView):
     column_labels = labels
 
 
-admin = Admin(name=u"智方后台管理", template_mode="bootstrap3")
+class AppFileAdmin(fileadmin.FileAdmin):
+
+    can_delete_dirs = 0
+
+    can_upload = 0
+
+    can_delete = 0
+
+    can_rename = 0
+
+    can_mkdir = 0
+
+
+admin = Admin(name=u"智方后台管理", base_template="app_master.html", template_mode="bootstrap3")
 
 from .reimbursement import ReimbursementModelView
 from .bulletin import BulletinModelView
@@ -153,4 +166,4 @@ admin.add_view(SpecialtyModelView(Specialty, db.session, name=u"专业类型", c
 admin.add_view(LeaveTypeModelView(LeaveType, db.session, name=u"请假类型", category=u"辅助数据"))
 admin.add_view(ProjectStageModelView(ProjectStage, db.session, name=u"项目节点", category=u"辅助数据"))
 admin.add_view(ReimbursementTypeModelView(ReimbursementType, db.session, name=u"报销类型", category=u"辅助数据"))
-admin.add_view(fileadmin.FileAdmin("app/static/apk", "/static/apk/", name="Android"))
+admin.add_view(AppFileAdmin("app/static/apk", "/static/apk/", name=u"安卓应用下载"))

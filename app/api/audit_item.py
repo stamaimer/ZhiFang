@@ -41,9 +41,11 @@ def select_audit_item():
 
         used = request.args.get("used")
 
-        if not used: return '', 400
+        if not used: return '', 400  # to modify
 
         type = request.args.getlist("type")
+
+        status = request.args.getlist("status")
 
         page = request.args.get("page", default=1, type=int)
 
@@ -57,9 +59,14 @@ def select_audit_item():
 
                 audit_items = audit_items.filter(AuditItem.type.in_(type))
 
+            if status:
+
+                audit_items = audit_items.filter(AuditItem.status.in_(status))
+
         if used == "update":
 
-            audit_items = AuditItem.query.filter(AuditItem.current_audit_view.audit_user == current_user)
+            audit_items = AuditItem.query.filter(AuditItem.current_audit_view.audit_user == current_user,
+                                                 AuditItem.status == u"审批中")
 
         audit_items = audit_items.order_by(AuditItem.create_datetime.desc()).paginate(page, page_size).items
 

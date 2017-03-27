@@ -1,9 +1,9 @@
 {% extends "admin/master.html" %}
 {% block body %}
+    {{ super() }}
     {% if current_user.has_role("admin") or current_user.has_role("test") %}
-        <p></p>
-        <a href="{{ url_for('security.logout', next=request.url) }}">登出</a>
+        <a href="{{ url_for('security.logout', next=request.url) }}" class="btn btn-primary">登出</a>
     {% else %}
-        <a href="{{ url_for('security.login', next=request.url) }}">登录</a>
+        <a href="{{ url_for('security.login', next=request.url) }}" class="btn btn-primary">登录</a>
     {% endif %}
 {% endblock body %}

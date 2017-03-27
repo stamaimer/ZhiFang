@@ -12,13 +12,13 @@
 
 import logging
 
+from raven.contrib.flask import Sentry
+
 from werkzeug.contrib.fixers import ProxyFix
 
 from flask import Flask
 
 from app.form import AppLoginForm
-
-from raven.contrib.flask import Sentry
 
 
 def create_app(config_name):

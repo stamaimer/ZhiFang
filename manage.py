@@ -41,11 +41,10 @@ manager.add_command("db", MigrateCommand)
 
 
 @manager.command
-def rebuild_db():
+def db_init():
 
     connection = MySQLdb.connect(host=current_app.config["DB_HOST"],
-                                 user=current_app.config["DB_USER"],
-                                 passwd=current_app.config["DB_PSWD"])
+                                 user=current_app.config["DB_USER"], passwd=current_app.config["DB_PSWD"])
 
     cursor = connection.cursor()
 

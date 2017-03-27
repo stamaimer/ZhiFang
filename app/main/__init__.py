@@ -10,6 +10,10 @@
 """
 
 
+import os
+
+from subprocess import call
+
 from flask import Blueprint, current_app, send_file
 
 from flask_security import auth_token_required, http_auth_required
@@ -29,6 +33,10 @@ def index():
 @http_auth_required
 def analysis():
 
-    #
+    target_filename = current_app.static_folder + "/analysis.html"
 
-    return send_file(current_app.static_folder + "/analysis.html")
+    command = "./analysis.sh"
+
+    call([command])
+
+    return send_file(target_filename)

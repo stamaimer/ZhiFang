@@ -19,7 +19,7 @@ class Project(AppModel):
 
     name = db.Column(db.String(128), unique=1, nullable=0)
 
-    status = db.Column(db.Boolean(), default=1)
+    status = db.Column(db.Enum(u"进行中", u"已完成", u"已归档"), default=u"进行中")
 
     region_id = db.Column(db.Integer(), db.ForeignKey("region.id"), nullable=0)
 
@@ -29,7 +29,7 @@ class Project(AppModel):
 
     charge_user = db.relationship("User", foreign_keys=charge_user_id)
 
-    current_stage_id = db.Column(db.Integer(), db.ForeignKey("project_stage.id"), nullable=0)
+    current_stage_id = db.Column(db.Integer(), db.ForeignKey("project_stage.id"))  # confuse
 
     current_stage = db.relationship("ProjectStage", foreign_keys=current_stage_id)
 

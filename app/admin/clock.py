@@ -25,7 +25,7 @@ class ClockModelView(AppModelView):
 
     column_list = ["create_user", "datetime", "position", "project", "notation"]
 
-    column_searchable_list = ["create_user.username", "project.name"]
+    column_searchable_list = ["create_user.username", "position", "project.name"]
 
     labels = dict(create_user=u"打卡人员", datetime=u"打卡时间", position=u"打卡位置", project=u"所属项目", notation=u"备注")
 

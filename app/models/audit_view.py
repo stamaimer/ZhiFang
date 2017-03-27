@@ -18,8 +18,6 @@ from . import db, AppModel
 
 class AuditView(AppModel):
 
-    id = db.Column(db.Integer(), primary_key=True)
-
     next_id = db.Column(db.Integer(), db.ForeignKey("audit_view.id"))
 
     _next_ = db.relationship("AuditView", remote_side="AuditView.id", backref=db.backref("last", uselist=0), uselist=0,

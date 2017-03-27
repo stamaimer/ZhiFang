@@ -50,13 +50,13 @@ class User(AppModel, UserMixin):
 
     def __init__(self, phone="", username="", password="", region=None, roles=[]):
 
-        self.phone = phone
-
         self.username = username
 
         self.password = password
 
         self.region = region
+
+        self.phone = phone
 
         self.roles = roles
 

@@ -22,9 +22,7 @@ class AppModel(db.Model):
 
     __abstract__ = 1
 
-    __table_args__ = {"mysql_engine": "InnoDB"}
-
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=1)
 
     create_datetime = db.Column(db.DateTime(), default=func.now())
 
@@ -45,7 +43,7 @@ class AppModel(db.Model):
             depth -= 1
 
             exclude = ["active", "email", "employee_no", "gender", "id_no", "image", "notation", "password",
-                       "region_id", "registration_id"] + ["charge_user_id", "current_stage_id", "no"]
+                       "region_id", "registration_id"] + ["charge_user_id", "current_stage_id", "region_id"]
 
             attrs = self.__mapper__.attrs.keys()
 
@@ -93,7 +91,6 @@ from .role import Role
 from .user import User
 from .loan import Loan
 from .work import Work
-# from .audit import Audit
 from .clock import Clock
 from .leave import Leave
 from .region import Region

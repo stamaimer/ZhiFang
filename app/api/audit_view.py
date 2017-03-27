@@ -14,7 +14,7 @@ import traceback
 
 from sqlalchemy.sql import func
 
-from flask import abort, current_app, jsonify, request
+from flask import abort, current_app, request
 
 from flask_security import auth_token_required, current_user
 
@@ -22,30 +22,7 @@ from app.models.audit_view import AuditView
 from app.models.user import User
 from app.models import db
 
-from app.utilities import push
-
 from . import api
-
-
-# @api.route("/audit_view")
-@auth_token_required
-def select_audit_view():
-
-    try:
-
-        audit_views = AuditView.query.filter_by(audit_user_id=current_user.id, status=1, result=None).all()
-
-        data_dict = dict()
-
-        data_dict["audit_views"] = [audit_view.to_dict() for audit_view in audit_views]
-
-        return jsonify(data_dict)
-
-    except:
-
-        current_app.logger.error(traceback.format_exc())
-
-        abort(500)
 
 
 @api.route("/audit_view", methods=["PATCH"])
@@ -82,7 +59,7 @@ def update_audit_view():
 
                 else:
 
-                    audit_view.audit.status = u"已通过"
+                    audit_view.audit_item.status = u"已通过"
 
             if result == u"驳回":
 
@@ -94,23 +71,22 @@ def update_audit_view():
 
                 retrial_audit_view = AuditView(audit_user=User.query.get(retrial_user_id),
                                                audit_item=audit_view.audit_item,
+                                               next_id=audit_view._next_.id,
                                                status=1)
 
                 retrial_audit_view.save()
 
                 audit_view.audit_item.current_audit_view = retrial_audit_view
 
-                retrial_audit_view._next_ = audit_view._next_
-
                 audit_view._next_ = retrial_audit_view
 
             db.session.commit()
 
-            return '', 204
+            return '', 204  # to modify
 
         else:
 
-            return '', 401
+            return '', 401  # to modify
 
     except:
 

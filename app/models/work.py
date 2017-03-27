@@ -59,4 +59,3 @@ class Work(AuditItem):
         self.date = date
 
         self.hour = hour
-

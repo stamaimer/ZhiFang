@@ -57,6 +57,6 @@ class LoanModelView(AppModelView):
     column_searchable_list = ["create_user.username", "project.name", "status"]
 
     labels = dict(create_user=u"创建人员", amount=u"金额", project=u"所属项目", notation=u"备注",
-                  create_datetime=u"创建时间", attachment=u"附件", status=u"状态", audit_process=u"审批流程")
+                  create_datetime=u"创建时间", status=u"状态", attachment=u"附件", audit_process=u"审批流程")
 
     column_labels = labels

@@ -47,7 +47,7 @@ class WorkModelView(AppModelView):
                            "notation", "create_datetime", "status", "audit_process"]
 
     column_searchable_list = ["create_user.username", "specialty.text", "work_type.text", "project.name",
-                              "project_stage.text"]
+                              "project_stage.text", "status"]
 
     labels = dict(create_user=u"创建人员", specialty=u"专业", work_type=u"工作内容", hour=u"工时", project=u"所属项目",
                   project_stage=u"所属项目节点", date=u"所属日期", notation=u"备注", create_datetime=u"创建时间",

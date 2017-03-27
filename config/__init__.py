@@ -16,7 +16,7 @@ class Config(object):
 
     PORT = 7070
 
-    DEBUG = 1
+    DEBUG = 1  # to modify
 
     WTF_CSRF_ENABLED = 0
 

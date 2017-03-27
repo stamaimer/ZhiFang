@@ -12,7 +12,7 @@
 
 5. initial database(with venv activated)
     
-    - python manage.py rebuild_db
+    - python manage.py db_init
 
 6. run server(with venv activated)
 
