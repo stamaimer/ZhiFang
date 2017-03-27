@@ -23,7 +23,7 @@ main = Blueprint("main", __name__)
 
 
 @main.route('/')
-@auth_token_required
+# @auth_token_required
 def index():
 
     return '', 204
