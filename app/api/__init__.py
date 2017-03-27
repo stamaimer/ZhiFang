@@ -146,7 +146,7 @@ def init_db():
 
         for index, username, text in zip([0, 1, 2, 3], [u"唐剑", u"彭朝辉", u"黄福水", u"段汝霞"], [u"四川", u"重庆", u"云南", u"西藏"]):
 
-            user = User(phone="a123456" + str(index), region=region, username=username, password="123456")
+            user = User(phone="a123456" + str(index), region=Region.query.filter_by(text=u"西南").first(), username=username, password="123456")
 
             user.save()
 
