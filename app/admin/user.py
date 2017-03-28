@@ -53,6 +53,14 @@ class UserModelView(AppModelView):
                                       namegen=namegen)
     }
 
+    # def get_query(self):
+    #
+    #     return self.session.query(self.model).filter(self.model.roles)
+    #
+    # def get_count_query(self):
+    #
+    #     return self.get_query().count()
+
     form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id"]
 
     column_searchable_list = ["employee_no", "username", "gender", "phone", "id_no", "specialties.text", "region.text",
