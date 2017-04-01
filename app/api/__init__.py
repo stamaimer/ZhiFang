@@ -120,9 +120,11 @@ def init_db():
 
     try:
 
-        role = Role("admin", "administrator")
+        for name, desp in zip(["test", "admin", "general"], ["Super User", "Administrator", "General User"]):
 
-        role.save()
+            role = Role(name, desp)
+
+            role.save()
 
     except IntegrityError:
 

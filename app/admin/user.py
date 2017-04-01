@@ -53,13 +53,13 @@ class UserModelView(AppModelView):
                                       namegen=namegen)
     }
 
-    # def get_query(self):
-    #
-    #     return self.session.query(self.model).filter(self.model.roles)
-    #
-    # def get_count_query(self):
-    #
-    #     return self.get_query().count()
+    def get_query(self):
+
+        return self.session.query(self.model).filter(self.model.roles.any(name="general"))
+
+    def get_count_query(self):
+
+        return self.get_query().count()
 
     form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id"]
 

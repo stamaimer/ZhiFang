@@ -52,7 +52,7 @@ def select_user():
 
     try:
 
-        users = User.query.filter_by(active=1).all()  # add filter
+        users = User.query.filter(User.roles.any(name="general"), User.active == 1).all()
 
         data_dict = dict(users=[user.to_dict() for user in users])
 
