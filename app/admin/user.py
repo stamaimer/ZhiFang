@@ -18,6 +18,7 @@ from jinja2 import Markup
 from flask import url_for
 
 from flask_admin import form
+from flask_admin.contrib.sqla.view import func
 
 from . import AppModelView
 
@@ -59,7 +60,7 @@ class UserModelView(AppModelView):
 
     def get_count_query(self):
 
-        return self.get_query().count()
+        return self.session.query(func.count('*')).select_from(self.model).filter(self.model.roles.any(name="general"))
 
     form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id"]
 
