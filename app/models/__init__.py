@@ -42,8 +42,8 @@ class AppModel(db.Model):
 
             depth -= 1
 
-            exclude = ["active", "email", "employee_no", "gender", "id_no", "notation", "password", "region_id",
-                       "registration_id"] + ["charge_user_id", "current_stage_id", "region_id"] + ["attachment"]
+            exclude = ["active", "email", "employee_no", "gender", "id_no", "password", "region_id", "registration_id"] \
+                      + ["charge_user_id", "current_stage_id", "region_id"] + ["attachment"]
 
             attrs = self.__mapper__.attrs.keys()
 
