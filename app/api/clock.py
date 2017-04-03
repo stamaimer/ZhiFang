@@ -32,7 +32,7 @@ def select_clock():
         page_size = request.args.get("page_size", default=5, type=int)
 
         clocks = Clock.query.filter_by(create_user=current_user)\
-            .order_by(Clock.create_datetime.desc()).paginate(page, page_size).items
+            .order_by(Clock.create_datetime.desc()).paginate(page, page_size, 0).items
 
         data_dict = dict()
 

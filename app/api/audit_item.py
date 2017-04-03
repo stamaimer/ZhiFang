@@ -71,7 +71,7 @@ def select_audit_item():
                                                  AuditView.status == 1,
                                                  AuditItem.status == u"审批中").join(AuditItem.current_audit_view)
 
-        audit_items = audit_items.order_by(AuditItem.create_datetime.desc()).paginate(page, page_size).items
+        audit_items = audit_items.order_by(AuditItem.create_datetime.desc()).paginate(page, page_size, 0).items
 
         data_dict = dict()
 

@@ -34,7 +34,7 @@ def select_leave():
         page_size = request.args.get("page_size", default=5, type=int)
 
         leaves = Leave.query.filter_by(create_user=current_user)\
-            .order_by(Leave.create_datetime.desc()).paginate(page, page_size).items
+            .order_by(Leave.create_datetime.desc()).paginate(page, page_size, 0).items
 
         data_dict = dict()
 

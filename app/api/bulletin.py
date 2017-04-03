@@ -34,7 +34,7 @@ def select_bulletin():
         bulletins = Bulletin.query\
             .filter(Bulletin.status == 1, Bulletin.authorized_users.any(id=current_user.id))\
             .order_by(Bulletin.create_datetime.desc())\
-            .paginate(page, page_size).items
+            .paginate(page, page_size, 0).items
 
         data_dict = dict(bulletins=[bulletin.to_dict() for bulletin in bulletins])
 
