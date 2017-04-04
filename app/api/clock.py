@@ -23,6 +23,7 @@ from . import api
 
 
 @api.route("/clock")
+@auth_token_required
 def select_clock():
 
     try:

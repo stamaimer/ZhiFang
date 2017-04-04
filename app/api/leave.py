@@ -25,6 +25,7 @@ from . import api
 
 
 @api.route("/leave")
+@auth_token_required
 def select_leave():
 
     try:

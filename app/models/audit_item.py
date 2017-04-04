@@ -25,6 +25,7 @@ class AuditItem(AppModel):
 
     current_audit_view_id = db.Column(db.Integer(), db.ForeignKey("audit_view.id"))
 
-    current_audit_view = db.relationship("AuditView", foreign_keys=current_audit_view_id, uselist=0, cascade="all,delete")
+    current_audit_view = db.relationship("AuditView", foreign_keys=current_audit_view_id, uselist=0,
+                                         cascade="all,delete", post_update=1)
 
     __mapper_args__ = {"polymorphic_identity": "audit_item", "polymorphic_on": type}
