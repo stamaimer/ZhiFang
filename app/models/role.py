@@ -29,4 +29,4 @@ class Role(AppModel, RoleMixin):
 
     def __repr__(self):
 
-        return self.name
+        return self.description

@@ -49,7 +49,12 @@ def create_loan():
 
         loan.save()
 
-        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=loan)
+        th4_audit_view = AuditView(audit_user=User.query.filter_by(username=u"出纳").first(), audit_item=loan)
+
+        th4_audit_view.save()
+
+        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=loan,
+                                   next_id=th4_audit_view.id)
 
         rd3_audit_view.save()
 

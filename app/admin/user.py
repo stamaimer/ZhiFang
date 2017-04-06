@@ -67,7 +67,7 @@ class UserModelView(AppModelView):
     column_searchable_list = ["employee_no", "username", "gender", "phone", "id_no", "specialties.text", "region.text",
                               "roles.name", "active", "notation"]
 
-    column_list = ["employee_no", "username", "gender", "phone", "specialties", "region", "roles", "active"]
+    column_list = ["employee_no", "username", "gender", "phone", "specialties", "region", "active"]
 
     column_details_list = ["employee_no", "username", "gender", "phone", "id_no", "specialties", "region", "roles",
                            "active", "image", "notation", "create_datetime", "update_datetime"]

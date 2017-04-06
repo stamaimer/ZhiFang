@@ -52,7 +52,7 @@ class ReimbursementModelView(AppModelView):
     column_list = ["create_user", "amount", "project", "reimbursement_type", "notation", "create_datetime", "status"]
 
     column_details_list = ["create_user", "amount", "project", "reimbursement_type", "notation", "create_datetime",
-                           "status", "attachment", "audit_process"]
+                           "status", "audit_process", "attachment"]
 
     column_searchable_list = ["create_user.username", "project.name", "reimbursement_type.text", "status"]
 

@@ -51,8 +51,8 @@ class LoanModelView(AppModelView):
 
     column_list = ["create_user", "amount", "project", "notation", "create_datetime", "status"]
 
-    column_details_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "attachment",
-                           "audit_process"]
+    column_details_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "audit_process",
+                           "attachment"]
 
     column_searchable_list = ["create_user.username", "project.name", "status"]
 

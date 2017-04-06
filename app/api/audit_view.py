@@ -71,7 +71,7 @@ def update_audit_view():
 
                 retrial_audit_view = AuditView(audit_user=User.query.get(retrial_user_id),
                                                audit_item=audit_view.audit_item,
-                                               next_id=audit_view._next_.id,
+                                               _next_=audit_view._next_ if audit_view._next_ else None,
                                                status=1)
 
                 retrial_audit_view.save()

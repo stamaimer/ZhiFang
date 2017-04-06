@@ -99,7 +99,9 @@ def push(content, *target):
 
     if target:
 
-        _push.audience = jpush.audience(jpush.registration_id(target))  # to test
+        target = [item for item in target if item]
+
+        _push.audience = jpush.audience(jpush.registration_id(*target))  # to test
 
     else:
 
