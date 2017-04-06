@@ -135,7 +135,10 @@ def init_db():
 
     try:
 
-        user = User(phone="a123456", username=u"杨好三", password="123456", roles=[role])
+        user = User(phone="a123457", username=u"出纳", password="123456", roles=[role])
+
+        user = User(phone="a123456", username=u"杨好三", password="123456",
+                    roles=Role.query.all())
 
         user.save()
 
@@ -149,7 +152,8 @@ def init_db():
 
         for index, username, text in zip([0, 1, 2, 3], [u"唐剑", u"彭朝辉", u"黄福水", u"段汝霞"], [u"四川", u"重庆", u"云南", u"西藏"]):
 
-            user = User(phone="a123456" + str(index), region=Region.query.filter_by(text=u"西南").first(), username=username, password="123456")
+            user = User(phone="a123456" + str(index), region=Region.query.filter_by(text=u"西南").first(),
+                        username=username, password="123456", roles=[role])
 
             user.save()
 
@@ -172,18 +176,18 @@ def init_db():
         # current_app.logger.error(traceback.format_exc())
 
 
-@api.before_app_request
+# @api.before_app_request
 def before_app_request():
 
-    # g.start = time.clock()
+    g.start = time.clock()
 
     current_app.logger.debug("request path: " + request.url)
 
-    # current_app.logger.debug("request head: " + request.headers.__str__())
-    #
+    current_app.logger.debug("request head: " + request.headers.__str__())
+
     current_app.logger.debug("request args: " + request.args.__str__())
-    #
-    # current_app.logger.debug("request form: " + request.form.__str__())
+
+    current_app.logger.debug("request form: " + request.form.__str__())
 
     current_app.logger.debug("request data: " + request.data.__str__())
 
@@ -198,6 +202,8 @@ def after_app_request(response):
             current_app.logger.debug(query)
 
     current_app.logger.debug(time.clock() - g.start)
+
+    current_app.logger.debug(response.data)
 
     return response
 

@@ -72,5 +72,5 @@ def push_after_status_set(target, value, oldvalue, initiator):
 @listens_for(AuditView.result, "set")
 def push_after_result_set(target, value, oldvalue, initiator):
     if value:
-        push(u"{}已经{}你的{}申请".format(target.audit_user.username, target.result, target.audit_item.type),
+        push(u"{}已经{}你的{}申请".format(target.audit_user.username, value, target.audit_item.type),
              target.audit_item.create_user.registration_id)
