@@ -133,47 +133,56 @@ def init_db():
 
         # current_app.logger.error(traceback.format_exc())
 
+    # try:
+    #
+    #     user = User(phone="a123457", username=u"出纳", password="123456", roles=[role])
+    #
+    #     user = User(phone="a123456", username=u"杨好三", password="123456",
+    #                 roles=Role.query.all())
+    #
+    #     user.save()
+    #
+    #     for text in [u"广西", u"贵阳", u"西南"]:
+    #
+    #         region = Region(text, user)
+    #
+    #         region.save()
+    #
+    #         user.region = region
+    #
+    #     for index, username, text in zip([0, 1, 2, 3], [u"唐剑", u"彭朝辉", u"黄福水", u"段汝霞"], [u"四川", u"重庆", u"云南", u"西藏"]):
+    #
+    #         user = User(phone="a123456" + str(index), region=Region.query.filter_by(text=u"西南").first(),
+    #                     username=username, password="123456", roles=[role])
+    #
+    #         user.save()
+    #
+    #         region = Region(text, user)
+    #
+    #         region.save()
+    #
+    #     region = Region(u"海南", User.query.filter_by(username=u"黄福水").first())
+    #
+    #     region.save()
+    #
+    #     project = Project(no="XMBH", name=u"测试项目", region=Region.query.get(1), charge_user=user)
+    #
+    #     project.save()
+    #
+    # except IntegrityError:
+    #
+    #     db.session.rollback()
+    #
+    #     current_app.logger.error(traceback.format_exc())
+
+
     try:
 
-        user = User(phone="a123457", username=u"出纳", password="123456", roles=[role])
+        for text in [u"广西", u"贵州", u"西南", u"四川", u"重庆", u"云南", u"西藏", u"海南"]:
 
-        user = User(phone="a123456", username=u"杨好三", password="123456",
-                    roles=Role.query.all())
-
-        user.save()
-
-        for text in [u"广西", u"贵阳", u"西南"]:
-
-            region = Region(text, user)
+            region = Region(text)
 
             region.save()
-
-            user.region = region
-
-        for index, username, text in zip([0, 1, 2, 3], [u"唐剑", u"彭朝辉", u"黄福水", u"段汝霞"], [u"四川", u"重庆", u"云南", u"西藏"]):
-
-            user = User(phone="a123456" + str(index), region=Region.query.filter_by(text=u"西南").first(),
-                        username=username, password="123456", roles=[role])
-
-            user.save()
-
-            region = Region(text, user)
-
-            region.save()
-
-        region = Region(u"海南", User.query.filter_by(username=u"黄福水").first())
-
-        region.save()
-
-        project = Project(no="XMBH", name=u"测试项目", region=Region.query.get(1), charge_user=user)
-
-        project.save()
-
-    except IntegrityError:
-
-        db.session.rollback()
-
-        # current_app.logger.error(traceback.format_exc())
 
 
 # @api.before_app_request
