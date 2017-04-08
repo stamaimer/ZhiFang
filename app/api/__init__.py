@@ -177,6 +177,10 @@ def init_db():
 
     try:
 
+        user = User("a123456", u"测试", "123456", roles=[role.query.get(1)])
+
+        user.save()
+
         for text in [u"广西", u"贵州", u"西南", u"四川", u"重庆", u"云南", u"西藏", u"海南"]:
 
             region = Region(text)

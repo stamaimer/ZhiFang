@@ -48,7 +48,7 @@ class AppModelView(ModelView):
 
     def is_accessible(self):
 
-        return current_user.has_role("admin")
+        return current_user.has_role("admin") or current_user.has_role("test")
 
     def inaccessible_callback(self, name, **kwargs):
 
