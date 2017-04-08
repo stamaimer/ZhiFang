@@ -175,7 +175,6 @@ def init_db():
     #
     #     current_app.logger.error(traceback.format_exc())
 
-
     try:
 
         for text in [u"广西", u"贵州", u"西南", u"四川", u"重庆", u"云南", u"西藏", u"海南"]:
@@ -183,6 +182,12 @@ def init_db():
             region = Region(text)
 
             region.save()
+
+    except IntegrityError:
+
+        db.session.rollback()
+
+        # current_app.logger.error(traceback.format_exc())
 
 
 # @api.before_app_request
