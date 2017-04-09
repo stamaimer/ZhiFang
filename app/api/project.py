@@ -12,7 +12,7 @@
 
 import traceback
 
-from flask import abort, current_app, jsonify
+from flask import abort, current_app, jsonify, request
 
 from flask_security import auth_token_required
 
@@ -27,7 +27,11 @@ def select_project():
 
     try:
 
-        projects = Project.query.filter(Project.status != u"已归档").order_by(Project.create_datetime.desc()).all()
+        qp = request.args.get("qp", default='%')
+
+        projects = Project.query.filter(Project.status != u"已归档",
+                                        ((Project.no.contains(qp)) | (Project.name.contains(qp))))\
+            .order_by(Project.create_datetime.desc()).all()
 
         data_dict = dict(projects=[project.to_dict() for project in projects])
 
