@@ -54,6 +54,8 @@ class AppModelView(ModelView):
 
         return redirect(url_for("security.login", next=request.url))
 
+    can_export = 1
+
     # pass
 
 
