@@ -10,20 +10,17 @@
 """
 
 
-import os
-
 from subprocess import call
 
 from flask import Blueprint, current_app, send_file
 
-from flask_security import auth_token_required, http_auth_required
+from flask_security import http_auth_required
 
 
 main = Blueprint("main", __name__)
 
 
 @main.route('/')
-# @auth_token_required
 def index():
 
     return '', 204

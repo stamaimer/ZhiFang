@@ -56,6 +56,8 @@ class AppModelView(ModelView):
 
     can_export = 1
 
+    can_set_page_size = 1
+
     # pass
 
 
