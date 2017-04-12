@@ -12,6 +12,8 @@
 
 from jinja2 import Markup
 
+from flask_admin.model.template import EndpointLinkRowAction
+
 from ..models.audit_view import AuditView
 
 from . import AppModelView
@@ -46,6 +48,10 @@ class LoanModelView(AppModelView):
         "attachment": _list_thumbnail,
         "audit_process": _list_audit_process
     }
+
+    column_extra_row_actions = [
+        EndpointLinkRowAction("glyphicon glyphicon-file", "main.generate_loan_certificate")
+    ]
 
     column_default_sort = ("create_datetime", 1)
 

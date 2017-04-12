@@ -1,0 +1,184 @@
+<html>
+    <head>
+        <style>
+            #paper{
+                width: 21cm;
+                height: 12.5cm;
+                border: 1px solid black;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            h3{
+                color: dodgerblue;
+                letter-spacing: 5px;
+            }
+            #outer{
+                width: 17cm;
+            }
+            .date{
+                color: dodgerblue;
+            }
+            #inner{
+                width: 17cm;
+                height: 7.5cm;
+                border: 1px solid dodgerblue;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                font-size: 14px;
+            }
+            .row{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+            .item{
+                margin: 10px;
+            }
+            label{
+                color: dodgerblue;
+            }
+            .u{
+                display: inline-block;
+                width: 100px;
+                text-align: center;
+                margin-left: 5px;
+                border-bottom: 1px solid dodgerblue;
+            }
+            .large{
+                width: 300px;
+            }
+            .small{
+                width: 50px;
+            }
+            .medium{
+                width: 140px;
+            }
+            .blank{
+                height: 30px;
+            }
+            img{
+                width: 80px;
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="paper">
+            <h3>现金借款凭证</h3>
+            <div id="outer">
+                <div style="text-align: right">
+                    {{ loan.create_datetime.year }}<span class="date">年</span>
+                    {{ loan.create_datetime.month }}<span class="date">月</span>
+                    {{ loan.create_datetime.day }}<span class="date">日</span>
+                </div>
+                <div id="inner">
+                    <div class="row">
+                        <div class="item"><label>分公司／部门</label><span class="u">西南</span></div>
+                        <div class="item"><label>借款人</label><span class="u">{{ loan.create_user.username }}</span></div>
+                        <div class="item"><label>预计还款日期</label><span class="u medium">&nbsp;</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="item"><label>借款用途</label><span class="u large">{{ loan.notation }}</span></div>
+                        <div class="item"><label>项目号</label><span class="u medium">{{ loan.project.no }}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="item"><label>借款金额（大写）</label><span id="amount_cn" class="u large"></span></div>
+                        <div class="item"><label>（小写）¥</label><span id="amount_ar" class="u">{{ loan.amount }}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="item"><label>已冲账报销金额<br />（小写）¥</label><span class="u small"></span></div>
+                        <div class="item"><label>借款余额<br />（小写）¥</label><span class="u small"></span></div>
+                        <div class="item"><label>收（退）金额<br />（小写）¥</label><span class="u small"></span></div>
+                        <div class="item"><label>签字确认</label><span class="u"><img src="{{ url_for('static', filename='images/sign/' + loan.create_user.image) }}" /></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="item"><label>项目经理</label><span class="u"><img src="{{ url_for('static', filename='images/sign/' + loan.project.charge_user.image) }}" /></span></div>
+                        <div class="item"><label>分公司／部门负责人</label><span class="u"><img src="{{ url_for('static', filename='images/sign/' + loan.create_user.region.charge_user.image) }}" /></span></div>
+                        <div class="item"><label>工程管理部</label><span class="u blank"></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="item"><label>财务部</label><span class="u medium blank"></span></div>
+                        <div class="item"><label>总经理</label><span class="u medium"><img src="{{ url_for('static', filename='images/sign/' + manager.image) }}" /></span></div>
+                        <div class="item"><label>董事长</label><span class="u medium blank"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            (function(){
+	//数字转换成大写金额函数
+	function atoc(numberValue) {
+		numberValue = parseFloat(numberValue).toFixed(2);
+		var numberValue = new String(Math.round(numberValue * 100)); // 数字金额
+		var chineseValue = ""; // 转换后的汉字金额
+		var String1 = "零壹贰叁肆伍陆柒捌玖"; // 汉字数字
+		var String2 = "万仟佰拾亿仟佰拾万仟佰拾元角分"; // 对应单位
+		var len = numberValue.length; // numberValue 的字符串长度
+		var Ch1; // 数字的汉语读法
+		var Ch2; // 数字位的汉字读法
+		var nZero = 0; // 用来计算连续的零值的个数
+		var String3; // 指定位置的数值
+		if (len > 15) {
+			//alert("超出计算范围");
+			return "超出计算范围";
+		}
+		if (numberValue == 0) {
+			chineseValue = "零元整";
+			return chineseValue;
+		}
+
+		String2 = String2.substr(String2.length - len, len); // 取出对应位数的STRING2的值
+		for (var i = 0; i < len; i++) {
+			String3 = parseInt(numberValue.substr(i, 1), 10); // 取出需转换的某一位的值
+			if (i != (len - 3) && i != (len - 7) && i != (len - 11) && i != (len - 15)) {
+				if (String3 == 0) {
+					Ch1 = "";
+					Ch2 = "";
+					nZero = nZero + 1;
+				} else if (String3 != 0 && nZero != 0) {
+					Ch1 = "零" + String1.substr(String3, 1);
+					Ch2 = String2.substr(i, 1);
+					nZero = 0;
+				} else {
+					Ch1 = String1.substr(String3, 1);
+					Ch2 = String2.substr(i, 1);
+					nZero = 0;
+				}
+			} else { // 该位是万亿，亿，万，元位等关键位
+				if (String3 != 0 && nZero != 0) {
+					Ch1 = "零" + String1.substr(String3, 1);
+					Ch2 = String2.substr(i, 1);
+					nZero = 0;
+				} else if (String3 != 0 && nZero == 0) {
+					Ch1 = String1.substr(String3, 1);
+					Ch2 = String2.substr(i, 1);
+					nZero = 0;
+				} else if (String3 == 0 && nZero >= 3) {
+					Ch1 = "";
+					Ch2 = "";
+					nZero = nZero + 1;
+				} else {
+					Ch1 = "";
+					Ch2 = String2.substr(i, 1);
+					nZero = nZero + 1;
+				}
+				if (i == (len - 11) || i == (len - 3)) { // 如果该位是亿位或元位，则必须写上
+					Ch2 = String2.substr(i, 1);
+				}
+			}
+			chineseValue = chineseValue + Ch1 + Ch2;
+		}
+		if (String3 == 0) { // 最后一位（分）为0时，加上“整”
+			chineseValue = chineseValue + "整";
+		}
+		return chineseValue;
+	}
+        $("#amount_cn").text(atoc($("#amount_ar").text()));
+})();
+        </script>
+    </body>
+</html>
