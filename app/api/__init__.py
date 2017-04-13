@@ -194,18 +194,18 @@ def init_db():
         # current_app.logger.error(traceback.format_exc())
 
 
-# @api.before_app_request
+@api.before_app_request
 def before_app_request():
 
     g.start = time.clock()
 
     current_app.logger.debug("request path: " + request.url)
 
-    current_app.logger.debug("request head: " + request.headers.__str__())
-
-    current_app.logger.debug("request args: " + request.args.__str__())
-
-    current_app.logger.debug("request form: " + request.form.__str__())
+    # current_app.logger.debug("request head: " + request.headers.__str__())
+    #
+    # current_app.logger.debug("request args: " + request.args.__str__())
+    #
+    # current_app.logger.debug("request form: " + request.form.__str__())
 
     current_app.logger.debug("request data: " + request.data.__str__())
 

@@ -12,14 +12,29 @@
 
 from jinja2 import Markup
 
+from flask import redirect, request, url_for
+
+from flask_security import current_user
+
+from flask_admin.contrib.sqla import ModelView
 from flask_admin.model.template import EndpointLinkRowAction
 
 from ..models.audit_view import AuditView
 
-from . import AppModelView
 
+class LoanModelView(ModelView):
 
-class LoanModelView(AppModelView):
+    def is_accessible(self):
+
+        return current_user.has_role("admin") or current_user.has_role("test") or current_user.has_role("cashier")
+
+    def inaccessible_callback(self, name, **kwargs):
+
+        return redirect(url_for("security.login", next=request.url))
+
+    can_export = 1
+
+    can_set_page_size = 1
 
     can_edit = 0
 
