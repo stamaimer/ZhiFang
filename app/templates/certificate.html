@@ -66,6 +66,11 @@
         </style>
     </head>
     <body>
+        {% if loan.attachment %}
+        <div style="width: 21cm; border: 1px solid black">
+            <img src="{{url_for('api.select_attachment', audit_item_id=loan.id)}}" style="width: 100%; height: 100%; max-height: 16cm"/>
+        </div>
+        {% endif %}
         <div id="paper">
             <h3>现金借款凭证</h3>
             <div id="outer">

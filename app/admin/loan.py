@@ -60,6 +60,8 @@ class LoanModelView(AppModelView):
     column_details_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "audit_process",
                            "attachment"]
 
+    column_editable_list = ["notation"]
+
     column_searchable_list = ["create_user.username", "project.name", "status"]
 
     labels = dict(create_user=u"创建人员", amount=u"金额", project=u"所属项目", notation=u"备注",
