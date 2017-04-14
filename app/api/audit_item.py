@@ -22,14 +22,14 @@ from app.models.audit_view import AuditView
 from . import api
 
 
-def to_dict(item):
+def to_dict(item, depth):
 
     item_dict = item.to_dict(2, include=["reimbursement_type", "project_stage",
                                          "create_user", "leave_type",
                                          "specialty", "work_type",
                                          "project"])
 
-    item_dict["current_audit_view"] = item.current_audit_view.to_dict(4, include=["last", "audit_user"])
+    item_dict["current_audit_view"] = item.current_audit_view.to_dict(depth+1, include=["last", "audit_user"])
 
     return item_dict
 
@@ -75,7 +75,8 @@ def select_audit_item():
 
         data_dict = dict()
 
-        data_dict["audit_items"] = [to_dict(item) for item in audit_items]
+        data_dict["audit_items"] = [to_dict(item, AuditView.query.filter_by(audit_item_id=item.id).count())
+                                    for item in audit_items]
 
         return jsonify(data_dict)
 
