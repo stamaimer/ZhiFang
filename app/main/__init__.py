@@ -57,9 +57,9 @@ def generate_loan_certificate(id):
 
         loan = Loan.query.get(id)
 
-        manager = User.query.filter_by(username=u"杨好三").first()
-
-        return render_template("certificate.html", loan=loan, manager=manager)
+        # manager = User.query.filter_by(username=u"杨好三").first()
+        #
+        # return render_template("certificate.html", loan=loan, manager=manager)
 
         if loan.status == u"已通过":
 
