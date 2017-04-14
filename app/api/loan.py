@@ -41,40 +41,46 @@ def create_loan():
 
         amount = request_json.get("amount")
 
-        loan = Loan(create_user_id=current_user.id,
-                    project_id=project_id,
-                    attachment=attachment,
-                    notation=notation,
-                    amount=amount)
+        if project_id and amount:
 
-        loan.save()
+            loan = Loan(create_user_id=current_user.id,
+                        project_id=project_id,
+                        attachment=attachment,
+                        notation=notation,
+                        amount=amount)
 
-        th4_audit_view = AuditView(audit_user=User.query.filter_by(username=u"总部出纳").first(), audit_item=loan)
+            loan.save()
 
-        th4_audit_view.save()
+            th4_audit_view = AuditView(audit_user=User.query.filter_by(username=u"总部出纳").first(), audit_item=loan)
 
-        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=loan,
-                                   next_id=th4_audit_view.id)
+            th4_audit_view.save()
 
-        rd3_audit_view.save()
+            rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=loan,
+                                       next_id=th4_audit_view.id)
 
-        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=loan,
-                                   next_id=rd3_audit_view.id)
+            rd3_audit_view.save()
 
-        nd2_audit_view.save()
+            nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=loan,
+                                       next_id=rd3_audit_view.id)
 
-        st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit_item=loan,
-                                   next_id=nd2_audit_view.id, status=1)
+            nd2_audit_view.save()
 
-        st1_audit_view.save()
+            st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit_item=loan,
+                                       next_id=nd2_audit_view.id, status=1)
 
-        loan.current_audit_view = st1_audit_view
+            st1_audit_view.save()
 
-        db.session.commit()
+            loan.current_audit_view = st1_audit_view
 
-        data_dict = dict(loan_id=loan.id)
+            db.session.commit()
 
-        return jsonify(data_dict)
+            data_dict = dict(loan_id=loan.id)
+
+            return jsonify(data_dict)
+
+        else:
+
+            return "Bad Request", 400
 
     except:
 

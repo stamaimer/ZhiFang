@@ -62,13 +62,19 @@ def create_clock():
 
         project_id = request_json.get("project_id")
 
-        clock = Clock(notation, position, project_id, current_user.id)
+        if position and project_id:
 
-        clock.save()
+            clock = Clock(notation, position, project_id, current_user.id)
 
-        data_dict = dict(clock_id=clock.id)
+            clock.save()
 
-        return jsonify(data_dict)
+            data_dict = dict(clock_id=clock.id)
+
+            return jsonify(data_dict)
+
+        else:
+
+            return "Bad Request", 400
 
     except:
 

@@ -244,7 +244,7 @@ def coor2addr():
 
         else:
 
-            return '', 404  # to modify
+            return "Not Found", 404  # to modify
 
     except:
 

@@ -44,36 +44,42 @@ def create_reimbursement():
 
         amount = request_json.get("amount")
 
-        reimbursement = Reimbursement(reimbursement_type_id=reimbursement_type_id,
-                                      create_user_id=current_user.id,
-                                      project_id=project_id,
-                                      attachment=attachment,
-                                      notation=notation,
-                                      amount=amount)
+        if reimbursement_type_id and project_id and amount:
 
-        reimbursement.save()
+            reimbursement = Reimbursement(reimbursement_type_id=reimbursement_type_id,
+                                          create_user_id=current_user.id,
+                                          project_id=project_id,
+                                          attachment=attachment,
+                                          notation=notation,
+                                          amount=amount)
 
-        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=reimbursement)
+            reimbursement.save()
 
-        rd3_audit_view.save()
+            rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=reimbursement)
 
-        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=reimbursement,
-                                   next_id=rd3_audit_view.id)
+            rd3_audit_view.save()
 
-        nd2_audit_view.save()
+            nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=reimbursement,
+                                       next_id=rd3_audit_view.id)
 
-        st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit_item=reimbursement,
-                                   next_id=nd2_audit_view.id, status=1)
+            nd2_audit_view.save()
 
-        st1_audit_view.save()
+            st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user, audit_item=reimbursement,
+                                       next_id=nd2_audit_view.id, status=1)
 
-        reimbursement.current_audit_view = st1_audit_view
+            st1_audit_view.save()
 
-        db.session.commit()
+            reimbursement.current_audit_view = st1_audit_view
 
-        data_dict = dict(reimbursement_id=reimbursement.id)
+            db.session.commit()
 
-        return jsonify(data_dict)
+            data_dict = dict(reimbursement_id=reimbursement.id)
+
+            return jsonify(data_dict)
+
+        else:
+
+            return "Bad Request", 400
 
     except:
 

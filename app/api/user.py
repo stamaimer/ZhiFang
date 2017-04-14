@@ -35,7 +35,7 @@ def update_user():
 
         db.session.commit()
 
-        return '', 204
+        return "No Content", 204
 
     except:
 

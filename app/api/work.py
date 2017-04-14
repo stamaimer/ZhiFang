@@ -42,33 +42,39 @@ def create_work():
 
         notation = request_json.get("notation")
 
-        hour = request_json.get("hour")
-
         date = request_json.get("date")
 
-        work = Work(project_stage_id=project_stage_id,
-                    create_user_id=current_user.id,
-                    specialty_id=specialty_id,
-                    work_type_id=work_type_id,
-                    project_id=project_id,
-                    notation=notation,
-                    date=date,
-                    hour=hour)
+        hour = request_json.get("hour")
 
-        work.save()
+        if project_stage_id and specialty_id and work_type_id and project_id and date and hour:
 
-        st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user,
-                                   audit_item=work, status=1)
+            work = Work(project_stage_id=project_stage_id,
+                        create_user_id=current_user.id,
+                        specialty_id=specialty_id,
+                        work_type_id=work_type_id,
+                        project_id=project_id,
+                        notation=notation,
+                        date=date,
+                        hour=hour)
 
-        st1_audit_view.save()
+            work.save()
 
-        work.current_audit_view = st1_audit_view
+            st1_audit_view = AuditView(audit_user=Project.query.get(project_id).charge_user,
+                                       audit_item=work, status=1)
 
-        db.session.commit()
+            st1_audit_view.save()
 
-        data_dict = dict(work_id=work.id)
+            work.current_audit_view = st1_audit_view
 
-        return jsonify(data_dict)
+            db.session.commit()
+
+            data_dict = dict(work_id=work.id)
+
+            return jsonify(data_dict)
+
+        else:
+
+            return "Bad Request", 400
 
     except:
 

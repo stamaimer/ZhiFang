@@ -68,31 +68,37 @@ def create_leave():
 
         last = request_json.get("last")
 
-        leave = Leave(create_user_id=current_user.id,
-                      leave_type_id=leave_type_id,
-                      beg_date=beg_date,
-                      end_date=end_date,
-                      notation=notation,
-                      last=last)
+        if leave_type_id and beg_date and end_date and last:
 
-        leave.save()
+            leave = Leave(create_user_id=current_user.id,
+                          leave_type_id=leave_type_id,
+                          beg_date=beg_date,
+                          end_date=end_date,
+                          notation=notation,
+                          last=last)
 
-        rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=leave)
+            leave.save()
 
-        rd3_audit_view.save()
+            rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=leave)
 
-        nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=leave,
-                                   next_id=rd3_audit_view.id, status=1)
+            rd3_audit_view.save()
 
-        nd2_audit_view.save()
+            nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=leave,
+                                       next_id=rd3_audit_view.id, status=1)
 
-        leave.current_audit_view = nd2_audit_view
+            nd2_audit_view.save()
 
-        db.session.commit()
+            leave.current_audit_view = nd2_audit_view
 
-        data_dict = dict(leave_id=leave.id)
+            db.session.commit()
 
-        return jsonify(data_dict)
+            data_dict = dict(leave_id=leave.id)
+
+            return jsonify(data_dict)
+
+        else:
+
+            return "Bad Request", 400
 
     except:
 

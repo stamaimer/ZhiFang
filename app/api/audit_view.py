@@ -45,7 +45,7 @@ def update_audit_view():
 
             audit_view.result = result
 
-            audit_view.advice = advice
+            audit_view.advice = advice if advice else ""
 
             audit_view.update_datetime = func.now()
 
@@ -82,11 +82,11 @@ def update_audit_view():
 
             db.session.commit()
 
-            return '', 204  # to modify
+            return "No Content", 204  # to modify
 
         else:
 
-            return '', 401  # to modify
+            return "Unauthorized", 401  # to modify
 
     except:
 
