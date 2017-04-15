@@ -21,7 +21,7 @@ from app.models.bulletin import Bulletin
 from . import api
 
 
-@api.route("/bulletin")
+@api.route("/bulletin/")
 @auth_token_required
 def select_bulletin():
 

@@ -32,11 +32,11 @@ name_maps = dict(reimbursement_type="reimbursement_types", project_stage="projec
                  leave_type="leave_types", specialty="specialties", work_type="work_types")
 
 
-@api.route("/reimbursement_type")
-@api.route("/project_stage")
-@api.route("/leave_type")
-@api.route("/specialty")
-@api.route("/work_type")
+@api.route("/reimbursement_type/")
+@api.route("/project_stage/")
+@api.route("/leave_type/")
+@api.route("/specialty/")
+@api.route("/work_type/")
 @auth_token_required
 def get_utilities():
 

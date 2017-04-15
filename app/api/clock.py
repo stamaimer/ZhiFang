@@ -22,7 +22,7 @@ from app.models import db
 from . import api
 
 
-@api.route("/clock")
+@api.route("/clock/")
 @auth_token_required
 def select_clock():
 
