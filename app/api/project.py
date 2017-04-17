@@ -21,7 +21,7 @@ from app.models.project import Project
 from . import api
 
 
-@api.route("/project/")
+@api.route("/project")
 @auth_token_required
 def select_project():
 

@@ -34,7 +34,7 @@ def to_dict(item, depth):
     return item_dict
 
 
-@api.route("/audit_item/")
+@api.route("/audit_item")
 @auth_token_required
 def select_audit_item():
 

@@ -46,7 +46,7 @@ def update_user():
         abort(500, traceback.format_exc())
 
 
-@api.route("/user/")
+@api.route("/user")
 @auth_token_required
 def select_user():
 

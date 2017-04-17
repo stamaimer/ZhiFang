@@ -24,7 +24,7 @@ from app.models import db
 from . import api
 
 
-@api.route("/leave/")
+@api.route("/leave")
 @auth_token_required
 def select_leave():
 
