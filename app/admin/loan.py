@@ -75,7 +75,9 @@ class LoanModelView(ModelView):
     column_details_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "printed",
                            "audit_process", "attachment"]
 
-    column_editable_list = ["printed"]
+    # column_editable_list = ["printed"]
+
+    column_filters = ["status", "printed"]
 
     column_searchable_list = ["create_user.username", "project.name", "status", "printed"]
 
