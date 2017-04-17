@@ -26,6 +26,8 @@ class Loan(AuditItem):
 
     project = db.relationship("Project", foreign_keys=project_id)
 
+    printed = db.Column(db.Enum(u"已打印", u"未打印"), default=u"未打印")
+
     amount = db.Column(db.Float())
 
     notation = db.Column(db.Text())

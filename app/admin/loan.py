@@ -70,16 +70,17 @@ class LoanModelView(ModelView):
 
     column_default_sort = ("create_datetime", 1)
 
-    column_list = ["create_user", "amount", "project", "notation", "create_datetime", "status"]
+    column_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "printed"]
 
-    column_details_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "audit_process",
-                           "attachment"]
+    column_details_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "printed",
+                           "audit_process", "attachment"]
 
-    column_editable_list = ["notation"]
+    column_editable_list = ["printed"]
 
-    column_searchable_list = ["create_user.username", "project.name", "status"]
+    column_searchable_list = ["create_user.username", "project.name", "status", "printed"]
 
     labels = dict(create_user=u"创建人员", amount=u"金额", project=u"所属项目", notation=u"备注",
-                  create_datetime=u"创建时间", status=u"状态", attachment=u"附件", audit_process=u"审批流程")
+                  create_datetime=u"创建时间", status=u"状态", printed=u"打印与否", attachment=u"附件",
+                  audit_process=u"审批流程")
 
     column_labels = labels

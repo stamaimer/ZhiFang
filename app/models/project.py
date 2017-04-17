@@ -21,6 +21,8 @@ class Project(AppModel):
 
     status = db.Column(db.Enum(u"进行中", u"已完成", u"已归档"), default=u"进行中")
 
+    plan_hour = db.Column(db.Integer())
+
     region_id = db.Column(db.Integer(), db.ForeignKey("region.id"), nullable=0)
 
     region = db.relationship("Region", foreign_keys=region_id)
