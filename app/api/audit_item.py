@@ -29,7 +29,7 @@ def to_dict(item, depth):
                                          "specialty", "work_type",
                                          "project"])
 
-    item_dict["current_audit_view"] = item.current_audit_view.to_dict(depth+1, include=["last", "audit_user"])
+    item_dict["current_audit_view"] = item.current_audit_view.to_dict(depth + 1, include=["last", "audit_user"])
 
     return item_dict
 
@@ -42,7 +42,7 @@ def select_audit_item():
 
         used = request.args.get("used")
 
-        if not used: return '', 400  # to modify
+        if not used: return "Bad Request", 400
 
         type = request.args.getlist("type")
 
@@ -84,4 +84,4 @@ def select_audit_item():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())

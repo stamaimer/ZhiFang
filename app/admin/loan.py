@@ -70,7 +70,7 @@ class LoanModelView(ModelView):
 
     column_default_sort = ("create_datetime", 1)
 
-    column_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "printed"]
+    column_list = ["create_user", "amount", "project", "create_datetime", "status", "printed"]
 
     column_details_list = ["create_user", "amount", "project", "notation", "create_datetime", "status", "printed",
                            "audit_process", "attachment"]

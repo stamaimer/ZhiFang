@@ -43,7 +43,7 @@ def update_user():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())
 
 
 @api.route("/user/")
@@ -64,4 +64,4 @@ def select_user():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())

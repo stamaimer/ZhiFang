@@ -45,7 +45,7 @@ def select_clock():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())
 
 
 @api.route("/clock", methods=["POST"])
@@ -82,4 +82,4 @@ def create_clock():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())

@@ -24,6 +24,12 @@ from app.models.user import User
 main = Blueprint("main", __name__)
 
 
+@main.app_errorhandler(500)
+def not_found(e):
+
+    return e.description.decode("utf-8"), 500, {"content-type": "text/plain; charset=utf-8"}
+
+
 @main.route('/')
 def index():
 
@@ -34,13 +40,9 @@ def index():
 @http_auth_required
 def analysis():
 
-    target_filename = current_app.static_folder + "/analysis.html"
+    call(["./analysis.sh"])
 
-    command = "./analysis.sh"
-
-    call([command])
-
-    return send_file(target_filename)
+    return send_file(current_app.static_folder + "/analysis.html")
 
 
 @main.route("/arabic2cn/<float:amount>")
@@ -56,10 +58,6 @@ def generate_loan_certificate(id):
     try:
 
         loan = Loan.query.get(id)
-
-        # manager = User.query.filter_by(username=u"杨好三").first()
-        #
-        # return render_template("certificate.html", loan=loan, manager=manager)
 
         if loan.status == u"已通过":
 
@@ -81,4 +79,4 @@ def generate_loan_certificate(id):
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())

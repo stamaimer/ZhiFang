@@ -82,11 +82,11 @@ def update_audit_view():
 
             db.session.commit()
 
-            return "No Content", 204  # to modify
+            return "No Content", 204
 
         else:
 
-            return "Unauthorized", 401  # to modify
+            return "Unauthorized", 401
 
     except:
 
@@ -94,4 +94,4 @@ def update_audit_view():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())

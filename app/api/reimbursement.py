@@ -55,7 +55,8 @@ def create_reimbursement():
 
             reimbursement.save()
 
-            rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(), audit_item=reimbursement)
+            rd3_audit_view = AuditView(audit_user=User.query.filter_by(username=u"杨好三").first(),
+                                       audit_item=reimbursement)
 
             rd3_audit_view.save()
 
@@ -87,4 +88,4 @@ def create_reimbursement():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())

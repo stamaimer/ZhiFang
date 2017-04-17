@@ -14,7 +14,7 @@ import traceback
 
 from flask import abort, current_app, jsonify, request
 
-from flask_security import auth_token_required, current_user
+from flask_security import auth_token_required, current_user, login_required
 
 from app.models.audit_view import AuditView
 from app.models.project import Project
@@ -88,4 +88,31 @@ def create_loan():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())
+
+
+@api.route("/loan", methods=["PATCH"])
+@login_required
+def update_loan():
+
+    try:
+
+        request_json = request.get_json(force=1)
+
+        loan_id = request_json.get("loan_id")
+
+        loan = Loan.query.get(loan_id)
+
+        loan.printed = u"已打印"
+
+        db.session.commit()
+
+        return "No Content", 204
+
+    except:
+
+        db.session.rollback()
+
+        current_app.logger.error(traceback.format_exc())
+
+        abort(500, traceback.format_exc())

@@ -20,12 +20,12 @@ from app.models import AuditItem
 from . import api
 
 
-@api.route("/attachment/<int:audit_item_id>.jpeg")
-def select_attachment(audit_item_id):
+@api.route("/attachment/<int:id>.jpeg")
+def select_attachment(id):
 
     try:
 
-        audit_item = AuditItem.query.get(audit_item_id)
+        audit_item = AuditItem.query.get(id)
 
         if audit_item and audit_item.attachment:
 
@@ -34,10 +34,10 @@ def select_attachment(audit_item_id):
 
         else:
 
-            return "Not Found", 404  # to modify
+            return "Not Found", 404
 
     except:
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())

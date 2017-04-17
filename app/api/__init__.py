@@ -38,12 +38,6 @@ from app.utilities import coor2addr as docoor2addr
 api = Blueprint("api", __name__)
 
 
-@api.errorhandler(404)
-def not_found(e):
-
-    return jsonify(None), 404
-
-
 @api.before_app_first_request
 def init_db():
 
@@ -244,13 +238,13 @@ def coor2addr():
 
         else:
 
-            return "Not Found", 404  # to modify
+            return "Not Found", 404
 
     except:
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())
 
 
 from .reimbursement import *

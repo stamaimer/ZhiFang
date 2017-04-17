@@ -1,10 +1,18 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+        <script src="https://use.fontawesome.com/bd29ac1921.js"></script>
         <style>
+            body{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+            }
             #paper{
                 width: 21cm;
                 height: 12.5cm;
-                border: 1px solid black;
+                /*border: 1px solid black;*/
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -63,12 +71,24 @@
                 width: 80px;
                 height: 30px;
             }
+            @media print
+            {
+                .no-print, .no-print *
+                {
+                    display: none !important;
+                }
+            }
+            .no-print{
+                width: 21cm;
+                display: flex;
+                justify-content: flex-end;
+            }
         </style>
     </head>
     <body>
         {% if loan.attachment %}
-        <div style="width: 21cm; border: 1px solid black">
-            <img src="{{url_for('api.select_attachment', audit_item_id=loan.id)}}" style="width: 100%; height: 100%; max-height: 16cm"/>
+        <div style="width: 21cm;">
+            <img src="{{url_for('api.select_attachment', id=loan.id)}}" style="width: 100%; height: 100%; max-height: 16cm"/>
         </div>
         {% endif %}
         <div id="paper">
@@ -112,8 +132,40 @@
                 </div>
             </div>
         </div>
+        <div class="pure-button-group no-print" role="group">
+            <button class="pure-button pure-button-primary" onclick="history.go(-1)">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> 返回
+            </button>
+            <button class="pure-button pure-button-primary" onclick="window.print()">
+                <i class="fa fa-print" aria-hidden="true"></i> 打印
+            </button>
+            <button class="pure-button pure-button-primary {% if loan.printed == '已打印' %}pure-button-disabled{% endif %}" id="update">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 更新打印状态
+            </button>
+            <button class="pure-button">
+                <i class="fa fa-info" aria-hidden="true"></i> {{ loan.printed }}
+            </button>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
+
+            $("#update").click(function () {
+                $.ajax({
+                    url: "{{ url_for('api.update_loan') }}",
+                    contentType: "application/json",
+                    data: JSON.stringify({"loan_id": {{ loan.id }}}),
+                    type: "PATCH",
+                    success: function () {
+                        alert("打印状态更新成功");
+                    },
+                    error: function(){
+                        alert("打印状态更新失败");
+                    },
+                    complete: function(){
+                        location.reload();
+                    }
+                });
+            });
             (function(){
 	//数字转换成大写金额函数
 	function atoc(numberValue) {

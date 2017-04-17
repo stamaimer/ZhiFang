@@ -47,7 +47,7 @@ def select_leave():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())
 
 
 @api.route("/leave", methods=["POST"])
@@ -106,4 +106,4 @@ def create_leave():
 
         current_app.logger.error(traceback.format_exc())
 
-        abort(500)
+        abort(500, traceback.format_exc())
