@@ -106,7 +106,7 @@
                         <div class="item"><label>预计还款日期</label><span class="u medium">&nbsp;</span></div>
                     </div>
                     <div class="row">
-                        <div class="item"><label>借款用途</label><span class="u large">{{ loan.notation }}</span></div>
+                        <div class="item"><label>借款用途</label><span class="u large">{% if loan.notation %}{{ loan.notation }}{% endif %}</span></div>
                         <div class="item"><label>项目号</label><span class="u medium">{{ loan.project.no }}</span></div>
                     </div>
                     <div class="row">

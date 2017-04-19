@@ -23,7 +23,7 @@ class ProjectModelView(AppModelView):
 
     column_searchable_list = ["no", "name", "current_stage.text", "charge_user.username", "region.text", "status"]
 
-    column_list = ["no", "name", "current_stage", "charge_user", "region", "status", "create_datetime"]
+    column_list = ["no", "name", "current_stage", "charge_user", "region", "status", "plan_hour", "create_datetime"]
 
     column_details_list = ["no", "name", "current_stage", "charge_user", "region", "status", "plan_hour",
                            "create_datetime", "update_datetime"]
