@@ -77,12 +77,14 @@ class LoanModelView(ModelView):
 
     # column_editable_list = ["printed"]
 
-    column_filters = ["status", "printed"]
+    column_filters = ["status", "printed", "create_user.username"]
 
     column_searchable_list = ["create_user.username", "project.name", "status", "printed"]
 
     labels = dict(create_user=u"创建人员", amount=u"金额", project=u"所属项目", notation=u"备注",
                   create_datetime=u"创建时间", status=u"状态", printed=u"打印与否", attachment=u"附件",
                   audit_process=u"审批流程")
+
+    labels["create_user.username"] = u"创建人员"
 
     column_labels = labels
