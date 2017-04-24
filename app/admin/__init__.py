@@ -149,7 +149,7 @@ from .bulletin import BulletinModelView
 from .project import ProjectModelView
 from .clock import ClockModelView
 from .leave import LeaveModelView
-from .loan import LoanModelView
+from .loan import LoanModelView, LoanModelViewForCashier
 from .user import UserModelView
 from .role import RoleModelView
 from .work import WorkModelView
@@ -162,6 +162,7 @@ admin.add_view(ClockModelView(Clock, db.session, name=u"打卡"))
 admin.add_view(LeaveModelView(Leave, db.session, name=u"请假"))
 admin.add_view(WorkModelView(Work, db.session, name=u"工时"))
 admin.add_view(LoanModelView(Loan, db.session, name=u"借款"))
+admin.add_view(LoanModelViewForCashier(Loan, db.session, name=u"借款", endpoint="loans"))
 admin.add_view(ReimbursementModelView(Reimbursement, db.session, name=u"报销"))
 admin.add_view(RoleModelView(Role, db.session, name=u"权限", category=u"辅助数据"))
 admin.add_view(RegionModelView(Region, db.session, name=u"地域", category=u"辅助数据"))
