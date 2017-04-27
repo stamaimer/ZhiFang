@@ -62,7 +62,7 @@ def create_app(config_name):
 
     from security import security
 
-    security.init_app(app, login_form=AppLoginForm)
+    security.init_app(app)
 
     from admin import admin
 

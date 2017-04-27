@@ -10,6 +10,9 @@
 """
 
 
+from app.form import AppLoginForm
+
+
 class Config(object):
 
     HOST = "127.0.0.1"
@@ -19,6 +22,8 @@ class Config(object):
     DEBUG = 1  # to modify
 
     WTF_CSRF_ENABLED = 0
+
+    SECURITY_LOGIN_FORM = AppLoginForm
 
     SECURITY_PASSWORD_HASH = "bcrypt"
 
