@@ -30,7 +30,7 @@ class LoanModelView(AppModelView):
 
     can_create = 0
 
-    can_delete = 0
+    can_delete = 1
 
     can_view_details = 1
 

@@ -21,7 +21,7 @@ class AuditView(AppModel):
     next_id = db.Column(db.Integer(), db.ForeignKey("audit_view.id"))
 
     _next_ = db.relationship("AuditView", remote_side="AuditView.id", backref=db.backref("last", uselist=0), uselist=0,
-                             post_update=1)
+                             post_update=1, cascade="all,delete")
 
     advice = db.Column(db.Text())
 
