@@ -10,6 +10,7 @@
 """
 
 
+import re
 import traceback
 
 from subprocess import call
@@ -59,11 +60,25 @@ def generate_loan_certificate(id):
 
         loan = Loan.query.get(id)
 
+        notation = loan.notation
+
+        pattern = re.compile("OA编号(.+?)。")
+
+        try:
+
+            oa_no = re.search(pattern, notation.encode("utf-8")).group(1).decode("utf-8")
+
+            notation = re.sub(pattern, '', notation.encode("utf-8")).decode("utf-8")
+
+        except AttributeError:
+
+            oa_no = ""
+
         if loan.status == u"已通过":
 
             manager = User.query.filter_by(username=u"杨好三").first()
 
-            return render_template("certificate.html", loan=loan, manager=manager)
+            return render_template("certificate.html", loan=loan, oa_no=oa_no, notation=notation, manager=manager)
 
         else:
 

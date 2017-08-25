@@ -94,6 +94,9 @@
         <div id="paper">
             <h3>现金借款凭证</h3>
             <div id="outer">
+                <div style="text-align: left">
+                    {{ oa_no }}
+                </div>
                 <div style="text-align: right">
                     {{ loan.create_datetime.year }}<span class="date">年</span>
                     {{ loan.create_datetime.month }}<span class="date">月</span>
@@ -106,7 +109,7 @@
                         <div class="item"><label>预计还款日期</label><span class="u medium">&nbsp;</span></div>
                     </div>
                     <div class="row">
-                        <div class="item"><label>借款用途</label><span class="u large">{% if loan.notation %}{{ loan.notation }}{% endif %}</span></div>
+                        <div class="item"><label>借款用途</label><span class="u large">{% if notation %}{{ notation }}{% endif %}</span></div>
                         <div class="item"><label>项目号</label><span class="u medium">{{ loan.project.no }}</span></div>
                     </div>
                     <div class="row">
