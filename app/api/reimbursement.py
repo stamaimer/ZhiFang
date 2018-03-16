@@ -60,8 +60,15 @@ def create_reimbursement():
 
             rd3_audit_view.save()
 
-            nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=reimbursement,
-                                       next_id=rd3_audit_view.id)
+            if current_user.region == u"四川":
+
+                nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=reimbursement,
+                                        next_id=rd3_audit_view.id)
+
+            else:
+
+                nd2_audit_view = AuditView(audit_user=current_user.specialties.charge_user, audit_item=reimbursement,
+                                        next_id=rd3_audit_view.id)
 
             nd2_audit_view.save()
 

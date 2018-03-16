@@ -83,8 +83,15 @@ def create_leave():
 
             rd3_audit_view.save()
 
-            nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=leave,
-                                       next_id=rd3_audit_view.id, status=1)
+            if current_user.region == u"四川":
+
+                nd2_audit_view = AuditView(audit_user=current_user.region.charge_user, audit_item=leave,
+                                        next_id=rd3_audit_view.id, status=1)
+
+            else:
+
+                nd2_audit_view = AuditView(audit_user=current_user.specialties.charge_user, audit_item=leave,
+                                        next_id=rd3_audit_view.id, status=1)
 
             nd2_audit_view.save()
 
