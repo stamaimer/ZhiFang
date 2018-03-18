@@ -91,7 +91,7 @@ class SpecialtyModelView(AppModelView):
 
     form_excluded_columns = ["create_datetime", "update_datetime"]
 
-    labels = dict(text=u"专业类型", status=u"状态")
+    labels = dict(text=u"专业类型", charge_user=u"负责人员", status=u"状态")
 
     column_labels = labels
 

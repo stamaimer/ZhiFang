@@ -82,9 +82,9 @@ bulletins_users = db.Table("bulletins_users",
                            db.Column("bulletin_id", db.Integer(), db.ForeignKey("bulletin.id")),
                            db.Column("user_id", db.Integer(), db.ForeignKey("user.id")))
 
-specialties_users = db.Table("specialties_users",
-                             db.Column("specialty_id", db.Integer(), db.ForeignKey("specialty.id")),
-                             db.Column("user_id", db.Integer(), db.ForeignKey("user.id")))
+# specialties_users = db.Table("specialties_users",
+#                              db.Column("specialty_id", db.Integer(), db.ForeignKey("specialty.id")),
+#                              db.Column("user_id", db.Integer(), db.ForeignKey("user.id")))
 
 
 from .role import Role

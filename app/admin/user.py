@@ -64,19 +64,19 @@ class UserModelView(AppModelView):
 
     form_excluded_columns = ["create_datetime", "update_datetime", "email", "registration_id"]
 
-    column_searchable_list = ["employee_no", "username", "gender", "phone", "id_no", "specialties.text", "region.text",
+    column_searchable_list = ["employee_no", "username", "gender", "phone", "id_no", "specialty.text", "region.text",
                               "roles.name", "active", "notation"]
 
-    column_list = ["employee_no", "username", "gender", "phone", "specialties", "region", "active"]
+    column_list = ["employee_no", "username", "gender", "phone", "specialty", "region", "active"]
 
-    column_details_list = ["employee_no", "username", "gender", "phone", "id_no", "specialties", "region", "roles",
+    column_details_list = ["employee_no", "username", "gender", "phone", "id_no", "specialty", "region", "roles",
                            "active", "image", "notation", "create_datetime", "update_datetime"]
 
-    form_columns = ["employee_no", "username", "password", "gender", "phone", "id_no", "specialties", "region", "roles",
+    form_columns = ["employee_no", "username", "password", "gender", "phone", "id_no", "specialty", "region", "roles",
                     "active", "notation", "image"]
 
     labels = dict(employee_no=u"工号", username=u"姓名", password=u"密码", gender=u"性别", phone=u"手机", id_no=u"身份证号",
-                  specialties=u"专业", region=u"地域", roles=u"权限", active=u"状态", image=u"签名", notation=u"备注",
+                  specialty=u"专业", region=u"地域", roles=u"权限", active=u"状态", image=u"签名", notation=u"备注",
                   create_datetime=u"创建时间", update_datetime=u"修改时间")
 
     column_labels = labels

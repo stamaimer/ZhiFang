@@ -12,7 +12,7 @@
 
 from flask_security import UserMixin
 
-from . import db, roles_users, specialties_users, AppModel
+from . import db, roles_users, AppModel
 
 
 class User(AppModel, UserMixin):
@@ -43,10 +43,14 @@ class User(AppModel, UserMixin):
 
     region = db.relationship("Region", foreign_keys=region_id)
 
+    specialty_id = db.Column(db.Integer(), db.ForeignKey("specialty.id"))
+
+    specialty = db.relationship("Specialty", foreign_keys=specialty_id)
+
     roles = db.relationship("Role", secondary=roles_users,
                             backref=db.backref("users", lazy="dynamic"))
 
-    specialties = db.relationship("Specialty", secondary=specialties_users)
+    # specialties = db.relationship("Specialty", secondary=specialties_users)
 
     def __init__(self, phone="", username="", password="", region=None, roles=[]):
 
