@@ -14,7 +14,7 @@ import traceback
 
 from sqlalchemy.sql import func
 
-from flask import abort, current_app, request
+from flask import abort, current_app, request, url_for
 
 from flask_security import auth_token_required, current_user
 
@@ -56,6 +56,12 @@ def update_audit_view():
                     audit_view._next_.status = 1
 
                     audit_view.audit_item.current_audit_view = audit_view._next_
+
+                    if audit_view.audit_item.current_audit_view.audit_user == current_user:  # 合并审批流程，如果当前审批人和下一个相同，在后台发一个请求完成下一个审批
+
+                        request_json["id"] = audit_view.audit_item.current_audit_view.id
+
+                        current_app.test_client.patch(url_for("api.update_audit_view"), data=request_json, headers={"content-type": "application/json", "cookie": request.cookies})
 
                 else:
 
