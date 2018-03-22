@@ -1,0 +1,28 @@
+version: "3"
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  web:
+    image: stamaimer/zhifang
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/ZhiFang
+    depends_on:
+      - db
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
