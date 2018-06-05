@@ -90,7 +90,7 @@ def create_leave():
 
             else:
 
-                nd2_audit_view = AuditView(audit_user=current_user.specialties.charge_user, audit_item=leave,
+                nd2_audit_view = AuditView(audit_user=current_user.specialty.charge_user, audit_item=leave,
                                         next_id=rd3_audit_view.id, status=1)
 
             nd2_audit_view.save()

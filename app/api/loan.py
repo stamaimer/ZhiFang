@@ -69,7 +69,7 @@ def create_loan():
 
             else:
 
-                nd2_audit_view = AuditView(audit_user=current_user.specialties.charge_user, audit_item=loan,
+                nd2_audit_view = AuditView(audit_user=current_user.specialty.charge_user, audit_item=loan,
                                         next_id=rd3_audit_view.id)
 
             nd2_audit_view.save()

@@ -67,7 +67,7 @@ def create_reimbursement():
 
             else:
 
-                nd2_audit_view = AuditView(audit_user=current_user.specialties.charge_user, audit_item=reimbursement,
+                nd2_audit_view = AuditView(audit_user=current_user.specialty.charge_user, audit_item=reimbursement,
                                         next_id=rd3_audit_view.id)
 
             nd2_audit_view.save()
