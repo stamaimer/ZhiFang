@@ -10,17 +10,10 @@
 """
 
 
-import os
-import unittest
-import tempfile
-
-from app import create_app
+def login(client, email, password):
+    return client.post("/login", data={"email": email, "password": password}, follow_redirects=1)
 
 
-class AppTestCase(unittest.TestCase):
-
-    def setUp(self):
-
-        app = create_app("config.Config")
-
-        self.db_fd,
+def logout(client):
+    return client.get("/logout", follow_redirects=1)
+    
