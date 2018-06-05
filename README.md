@@ -18,3 +18,6 @@
 
     - ./start.sh
 
+### Docker Deployment
+
+- docker-compose up
